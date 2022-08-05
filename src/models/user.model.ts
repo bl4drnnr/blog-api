@@ -37,4 +37,25 @@ export class UserModel extends Model<UserModel, UserCreatingAttributes> {
   })
   @Column(DataType.STRING)
   password: string;
+
+  @ApiProperty({
+    example: 'bl4drnnr',
+    description: 'Username of user'
+  })
+  @Column(DataType.STRING)
+  username: string;
+
+  @ApiProperty({
+    example: 'John',
+    description: 'First name (optional)'
+  })
+  @Column(DataType.STRING)
+  firstName: string;
+
+  @ApiProperty({
+    example: 'Doe',
+    description: 'Last name of user (optional)'
+  })
+  @Column(DataType.STRING)
+  lastName: string;
 }

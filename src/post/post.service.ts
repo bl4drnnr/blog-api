@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { PostModel } from '../models/post.model';
-import { PostDto } from '../dto/post.dto';
+import { CreatePostDto } from '../dto/post/create-post.dto';
 
 @Injectable()
 export class PostService {
@@ -9,7 +9,19 @@ export class PostService {
     @InjectModel(PostModel) private postRepository: typeof PostModel
   ) {}
 
-  async createPost(postDto: PostDto) {
-    return await this.postRepository.create(postDto);
+  async createPost(createPostDto: CreatePostDto) {
+    return await this.postRepository.create(createPostDto);
+  }
+
+  async getPostBySlug(slug: string) {
+    return await this.postRepository.findOne({
+      where: { slug }
+    });
+  }
+
+  async deletePost(id: string) {
+    return await this.postRepository.destroy({
+      where: { id }
+    });
   }
 }
