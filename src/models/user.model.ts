@@ -2,11 +2,13 @@ import {
   Column,
   DataType,
   Default,
+  HasOne,
   Model,
   PrimaryKey,
   Table
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
+import { SessionModel } from './session.model';
 
 interface UserCreatingAttributes {
   email: string;
@@ -21,7 +23,7 @@ export class UserModel extends Model<UserModel, UserCreatingAttributes> {
   })
   @PrimaryKey
   @Default(DataType.UUIDV4)
-  @Column(DataType.UUID)
+  @Column({ type: DataType.UUID })
   id: string;
 
   @ApiProperty({
@@ -58,4 +60,7 @@ export class UserModel extends Model<UserModel, UserCreatingAttributes> {
   })
   @Column({ type: DataType.STRING, allowNull: false })
   lastName: string;
+
+  @HasOne(() => SessionModel)
+  session: SessionModel;
 }

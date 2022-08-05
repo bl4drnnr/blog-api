@@ -21,7 +21,7 @@ export class PostModel extends Model<PostModel, PostCreatingAttributes> {
   })
   @PrimaryKey
   @Default(DataType.UUIDV4)
-  @Column(DataType.UUID)
+  @Column({ type: DataType.UUID })
   id: string;
 
   @ApiProperty({

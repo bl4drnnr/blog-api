@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
 import { PostModel } from './models/post.model';
 import { UserModel } from './models/user.model';
+import { SessionModel } from './models/session.model';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { UserModel } from './models/user.model';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [PostModel, UserModel],
+      models: [PostModel, UserModel, SessionModel],
       autoLoadModels: true
     }),
     UserModule,

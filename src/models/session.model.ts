@@ -1,12 +1,15 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   Default,
+  ForeignKey,
   Model,
   PrimaryKey,
   Table
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserModel } from './user.model';
 
 @Table
 export class SessionModel extends Model<SessionModel> {
@@ -16,12 +19,16 @@ export class SessionModel extends Model<SessionModel> {
   })
   @PrimaryKey
   @Default(DataType.UUIDV4)
-  @Column(DataType.UUID)
+  @Column({ type: DataType.UUID })
   id: string;
 
-  @Column(DataType.UUID)
+  @ForeignKey(() => UserModel)
+  @Column({ type: DataType.UUID })
   userId: string;
 
-  @Column(DataType.UUID)
+  @BelongsTo(() => UserModel)
+  user: UserModel;
+
+  @Column({ type: DataType.UUID })
   tokenId: string;
 }
