@@ -28,34 +28,34 @@ export class UserModel extends Model<UserModel, UserCreatingAttributes> {
     example: 'user@domain.com',
     description: 'Email of user'
   })
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   email: string;
 
   @ApiProperty({
     example: '1@qWasdf',
     description: 'Password of user'
   })
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false })
   password: string;
 
   @ApiProperty({
     example: 'bl4drnnr',
     description: 'Username of user'
   })
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   username: string;
 
   @ApiProperty({
     example: 'John',
     description: 'First name (optional)'
   })
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false })
   firstName: string;
 
   @ApiProperty({
     example: 'Doe',
     description: 'Last name of user (optional)'
   })
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false })
   lastName: string;
 }

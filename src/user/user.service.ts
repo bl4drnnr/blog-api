@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from '../models/user.model';
 import { SignUpUserDto } from '../dto/user/sign-up-user.dto';
 import { SignInUserDto } from '../dto/user/sign-in-user.dto';
+import { Op } from 'sequelize';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -15,12 +17,21 @@ export class UserService {
   }
 
   async signUp(signUpUserDto: SignUpUserDto) {
-    return await this.userRepository.create(signUpUserDto);
-  }
+    const sameEmailUsernameUser = this.userRepository.findOne({
+      where: {
+        [Op.or]: [
+          { email: signUpUserDto.email },
+          { username: signUpUserDto.username }
+        ]
+      }
+    });
+    if (sameEmailUsernameUser)
+      throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
 
-  private async getUserByEmail(email: string) {
-    return await this.userRepository.findOne({
-      where: { email }
+    const hashedPassword = bcrypt.hash(signUpUserDto.password, 5);
+    return await this.userRepository.create({
+      ...signUpUserDto,
+      password: hashedPassword
     });
   }
 }
