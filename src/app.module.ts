@@ -7,6 +7,7 @@ import { PostModule } from './post/post.module';
 import { PostModel } from './models/post.model';
 import { UserModel } from './models/user.model';
 import { SessionModel } from './models/session.model';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { SessionModel } from './models/session.model';
     }),
     UserModule,
     AuthModule,
-    PostModule
+    PostModule,
+    SharedModule
   ]
 })
 export class AppModule {}
