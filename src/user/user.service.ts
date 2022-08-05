@@ -5,11 +5,13 @@ import { SignUpUserDto } from '../dto/user/sign-up-user.dto';
 import { SignInUserDto } from '../dto/user/sign-in-user.dto';
 import { Op } from 'sequelize';
 import * as bcrypt from 'bcryptjs';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(UserModel) private userRepository: typeof UserModel
+    @InjectModel(UserModel) private userRepository: typeof UserModel,
+    private authService: AuthService
   ) {}
 
   async signIn(signInUserDto: SignInUserDto) {
