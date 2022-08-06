@@ -54,8 +54,8 @@ export class UserService {
     });
   }
 
-  async logout() {
-    //
+  async logout(user) {
+    return await this.authService.deleteRefreshToken(user);
   }
 
   async getAllUsers() {

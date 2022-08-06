@@ -35,8 +35,10 @@ export class AuthService {
     //
   }
 
-  async deleteRefreshToken() {
-    // delete by user id
+  async deleteRefreshToken(user) {
+    return await this.sessionRepository.destroy({
+      where: { userId: user }
+    });
   }
 
   verifyToken(token: string) {
