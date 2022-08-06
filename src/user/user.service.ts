@@ -54,8 +54,14 @@ export class UserService {
     });
   }
 
-  async logout(user) {
-    return await this.authService.deleteRefreshToken(user);
+  async logout(userId: string) {
+    return await this.authService.deleteRefreshToken(userId);
+  }
+
+  async getUserById(id: string) {
+    return await this.userRepository.findOne({
+      where: { id }
+    });
   }
 
   async getAllUsers() {

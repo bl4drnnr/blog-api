@@ -14,24 +14,23 @@ export class AuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
-    try {
-      const req = context.switchToHttp().getRequest();
-      const authHeader = req.headers.authorization;
-      const bearer = authHeader.split(' ')[0];
-      const token = authHeader.split(' ')[1];
-
-      if (bearer !== 'Bearer' || !token)
-        throw new UnauthorizedException({ message: 'unauthorized' });
-
-      const payload = this.authService.verifyToken(token);
-
-      if (payload.type !== 'access')
-        throw new UnauthorizedException({ message: 'unauthorized' });
-
-      req.user = payload;
-      return true;
-    } catch (e) {
+    const req = context.switchToHttp().getRequest();
+    const authHeader = req.headers.authorization;
+    if (!authHeader)
       throw new UnauthorizedException({ message: 'unauthorized' });
-    }
+
+    const bearer = authHeader.split(' ')[0];
+    const token = authHeader.split(' ')[1];
+
+    if (bearer !== 'Bearer' || !token)
+      throw new UnauthorizedException({ message: 'unauthorized' });
+
+    const payload = this.authService.verifyToken(token);
+
+    if (payload.type !== 'access')
+      throw new UnauthorizedException({ message: 'unauthorized' });
+
+    req.user = payload.userId;
+    return true;
   }
 }

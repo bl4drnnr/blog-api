@@ -31,8 +31,8 @@ export class UserController {
   @ApiResponse({ status: 200 })
   @UseGuards(AuthGuard)
   @Post('/logout')
-  logout(@User() user) {
-    return this.userService.logout(user);
+  logout(@User() userId) {
+    return this.userService.logout(userId);
   }
 
   @ApiOperation({ summary: 'Get all users. Allowed only for ADMIN role' })

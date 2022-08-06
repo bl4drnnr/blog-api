@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Session } from '../models/session.model';
 import { JwtService } from '@nestjs/jwt';
@@ -6,17 +6,21 @@ import { ConfigService } from '../shared/config.service';
 import { AccessTokenDto } from '../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
 import * as uuid from 'uuid';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(Session) private sessionRepository: typeof Session,
     private jwtService: JwtService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private userService: UserService
   ) {}
 
-  getTokenById() {
-    //
+  async getTokenById(tokenId: string) {
+    return await this.sessionRepository.findOne({
+      where: { tokenId }
+    });
   }
 
   async updateTokens(accessTokenDto: AccessTokenDto) {
@@ -31,13 +35,29 @@ export class AuthService {
     return { accessToken, refreshToken: refreshToken.token };
   }
 
-  async refreshToken() {
-    //
+  async refreshToken(tokenRefresh: string) {
+    const payload = this.verifyToken(tokenRefresh);
+
+    if (payload.type !== 'refresh')
+      throw new UnauthorizedException({ message: 'unauthorized' });
+
+    const token = await this.getTokenById(payload.id);
+
+    if (!token) throw new UnauthorizedException({ message: 'unauthorized' });
+
+    const user = await this.userService.getUserById(token.userId);
+
+    const { accessToken, refreshToken } = await this.updateTokens({
+      userId: user.id,
+      username: user.username
+    });
+
+    return { _at: accessToken, _rt: refreshToken };
   }
 
-  async deleteRefreshToken(user) {
+  async deleteRefreshToken(userId: string) {
     return await this.sessionRepository.destroy({
-      where: { userId: user }
+      where: { userId }
     });
   }
 
@@ -81,27 +101,4 @@ export class AuthService {
     });
     return await this.sessionRepository.create(refreshTokenDto);
   }
-
-  //   refreshToken: async ({ _rt }, { transaction } = { transaction: null }) => {
-  //   const payload = jwtService.verifyToken({ token: _rt })
-  //
-  //   if (payload.type !== 'refresh') throw ApiError.UnauthorizedError()
-  //
-  //   const token = await jwtService.getTokenByTokenId({ tokenId: payload.id }, { transaction })
-  //
-  //   if (!token) throw ApiError.UnauthorizedError()
-  //
-  //   const user = await userRepository.getUser({
-  //     id: cryptoService.decrypt(token.userId)
-  //   }, { transaction })
-  //
-  //   const tokens = await jwtService.updateTokens({
-  //     userId: cryptoService.decrypt(token.userId),
-  //     username: user.username,
-  //     personalId: user.personalId,
-  //     reputation: user.reputation
-  //   }, { transaction })
-  //
-  //   return { _at: tokens.accessToken, _rt: tokens.refreshToken }
-  // },
 }
