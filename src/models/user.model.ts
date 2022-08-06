@@ -8,7 +8,7 @@ import {
   Table
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { SessionModel } from './session.model';
+import { Session } from './session.model';
 
 interface UserCreatingAttributes {
   email: string;
@@ -16,7 +16,7 @@ interface UserCreatingAttributes {
 }
 
 @Table
-export class UserModel extends Model<UserModel, UserCreatingAttributes> {
+export class User extends Model<User, UserCreatingAttributes> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'
@@ -61,6 +61,6 @@ export class UserModel extends Model<UserModel, UserCreatingAttributes> {
   @Column({ type: DataType.STRING, allowNull: true })
   lastName: string;
 
-  @HasOne(() => SessionModel)
-  session: SessionModel;
+  @HasOne(() => Session)
+  session: Session;
 }

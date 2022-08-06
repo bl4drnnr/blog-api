@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { SessionModel } from '../models/session.model';
+import { Session } from '../models/session.model';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '../shared/config.service';
 import { AccessTokenDto } from "./dto/access-token.dto";
@@ -9,7 +9,7 @@ import { RefreshTokenDto } from "./dto/refresh-token.dto";
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(SessionModel) private sessionRepository: typeof SessionModel,
+    @InjectModel(Session) private sessionRepository: typeof Session,
     private jwtService: JwtService,
     private configService: ConfigService
   ) {}

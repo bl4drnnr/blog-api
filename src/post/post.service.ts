@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { PostModel } from '../models/post.model';
+import { Post } from '../models/post.model';
 import { CreatePostDto } from '../dto/post/create-post.dto';
 
 @Injectable()
 export class PostService {
   constructor(
-    @InjectModel(PostModel) private postRepository: typeof PostModel
+    @InjectModel(Post) private postRepository: typeof Post
   ) {}
 
   async createPost(createPostDto: CreatePostDto) {

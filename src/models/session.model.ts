@@ -9,10 +9,10 @@ import {
   Table
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserModel } from './user.model';
+import { User } from './user.model';
 
 @Table
-export class SessionModel extends Model<SessionModel> {
+export class Session extends Model<Session> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'
@@ -22,12 +22,12 @@ export class SessionModel extends Model<SessionModel> {
   @Column({ type: DataType.UUID })
   id: string;
 
-  @ForeignKey(() => UserModel)
+  @ForeignKey(() => User)
   @Column({ type: DataType.UUID })
   userId: string;
 
-  @BelongsTo(() => UserModel)
-  user: UserModel;
+  @BelongsTo(() => User)
+  user: User;
 
   @Column({ type: DataType.UUID })
   tokenId: string;

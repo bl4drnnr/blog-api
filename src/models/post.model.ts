@@ -14,7 +14,7 @@ interface PostCreatingAttributes {
 }
 
 @Table
-export class PostModel extends Model<PostModel, PostCreatingAttributes> {
+export class Post extends Model<Post, PostCreatingAttributes> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'

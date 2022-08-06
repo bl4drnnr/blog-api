@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { UserModel } from '../models/user.model';
+import { User } from '../models/user.model';
 import { SignUpUserDto } from '../dto/user/sign-up-user.dto';
 import { SignInUserDto } from '../dto/user/sign-in-user.dto';
 import { Op } from 'sequelize';
@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(UserModel) private userRepository: typeof UserModel,
+    @InjectModel(User) private userRepository: typeof User,
     private authService: AuthService
   ) {}
 

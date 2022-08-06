@@ -4,9 +4,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
-import { PostModel } from './models/post.model';
-import { UserModel } from './models/user.model';
-import { SessionModel } from './models/session.model';
+import { Post } from './models/post.model';
+import { User } from './models/user.model';
+import { Session } from './models/session.model';
 import { SharedModule } from './shared/shared.module';
 
 @Module({
@@ -21,7 +21,7 @@ import { SharedModule } from './shared/shared.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [PostModel, UserModel, SessionModel],
+      models: [Post, User, Session],
       autoLoadModels: true
     }),
     UserModule,
