@@ -23,11 +23,11 @@ export class SignUpUserDto {
     example: 'John',
     description: 'First name (optional)'
   })
-  readonly firstName: string;
+  readonly firstName?: string;
 
   @ApiProperty({
     example: 'Doe',
     description: 'Last name of user (optional)'
   })
-  readonly lastName: string;
+  readonly lastName?: string;
 }

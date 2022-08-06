@@ -15,11 +15,26 @@ export class UserService {
   ) {}
 
   async signIn(signInUserDto: SignInUserDto) {
+    const user = await this.userRepository.findOne({
+      where: { email: signInUserDto.email }
+    });
+
+    if (!user)
+      throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
+
+    const isPasswordValid = bcrypt.compare(
+      user.password,
+      bcrypt.hash(signInUserDto.password, 5)
+    );
+
+    if (!isPasswordValid)
+      throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
+
     return signInUserDto;
   }
 
   async signUp(signUpUserDto: SignUpUserDto) {
-    const sameEmailUsernameUser = this.userRepository.findOne({
+    const sameEmailUsernameUser = await this.userRepository.findOne({
       where: {
         [Op.or]: [
           { email: signUpUserDto.email },
@@ -27,13 +42,22 @@ export class UserService {
         ]
       }
     });
+
     if (sameEmailUsernameUser)
       throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
 
-    const hashedPassword = bcrypt.hash(signUpUserDto.password, 5);
+    const hashedPassword = await bcrypt.hash(signUpUserDto.password, 5);
     return await this.userRepository.create({
       ...signUpUserDto,
       password: hashedPassword
     });
+  }
+
+  async logout() {
+    //
+  }
+
+  async getAllUsers() {
+    return await this.userRepository.findAll();
   }
 }

@@ -51,14 +51,14 @@ export class UserModel extends Model<UserModel, UserCreatingAttributes> {
     example: 'John',
     description: 'First name (optional)'
   })
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   firstName: string;
 
   @ApiProperty({
     example: 'Doe',
     description: 'Last name of user (optional)'
   })
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   lastName: string;
 
   @HasOne(() => SessionModel)
