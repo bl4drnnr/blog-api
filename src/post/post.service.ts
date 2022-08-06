@@ -5,9 +5,7 @@ import { CreatePostDto } from '../dto/post/create-post.dto';
 
 @Injectable()
 export class PostService {
-  constructor(
-    @InjectModel(Post) private postRepository: typeof Post
-  ) {}
+  constructor(@InjectModel(Post) private postRepository: typeof Post) {}
 
   async createPost(createPostDto: CreatePostDto) {
     return await this.postRepository.create(createPostDto);

@@ -16,15 +16,14 @@ export class UserService {
 
   async signIn(signInUserDto: SignInUserDto) {
     const user = await this.userRepository.findOne({
-      where: {
-        [Op.and]: [
-          { email: signInUserDto.email },
-          { password: await bcrypt.hash(signInUserDto.password, 5) }
-        ]
-      }
+      where: { email: signInUserDto.email }
     });
+    const passwordEquality = await bcrypt.compare(
+      signInUserDto.password,
+      user.password
+    );
 
-    if (!user)
+    if (!user || !passwordEquality)
       throw new HttpException('wrong-credentials', HttpStatus.BAD_REQUEST);
 
     const { refreshToken, accessToken } = await this.authService.updateTokens({

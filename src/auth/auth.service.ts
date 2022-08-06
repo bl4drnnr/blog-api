@@ -3,8 +3,9 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Session } from '../models/session.model';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '../shared/config.service';
-import { AccessTokenDto } from "./dto/access-token.dto";
-import { RefreshTokenDto } from "./dto/refresh-token.dto";
+import { AccessTokenDto } from './dto/access-token.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import * as uuid from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -39,11 +40,31 @@ export class AuthService {
   }
 
   private generateAccessToken(accessTokenDto: AccessTokenDto) {
-    return accessTokenDto;
+    const payload = {
+      userId: accessTokenDto.userId,
+      username: accessTokenDto.username,
+      type: 'access'
+    };
+    const options = {
+      expiresIn: this.configService.jwtAuthConfig.accessExpiresIn,
+      secret: this.configService.jwtAuthConfig.secret
+    };
+
+    return this.jwtService.sign(payload, options);
   }
 
   private generateRefreshToken() {
-    return null;
+    const id = uuid.v4();
+    const payload = {
+      id,
+      type: 'refresh'
+    };
+    const options = {
+      expiresIn: this.configService.jwtAuthConfig.refreshExpiresIn,
+      secret: this.configService.jwtAuthConfig.secret
+    };
+
+    return { id, token: this.jwtService.sign(payload, options) };
   }
 
   private async updateRefreshToken(refreshTokenDto: RefreshTokenDto) {

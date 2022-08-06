@@ -42,9 +42,9 @@ export class ConfigService {
 
   get jwtAuthConfig() {
     return {
-      expirationInSeconds: this.getNumber('JWT_EXPIRES_IN'),
-      publicKey: this.getString('JWT_PUBLIC_KEY'),
-      privateKey: this.getString('JWT_PRIVATE_KEY')
+      accessExpiresIn: this.getString('JWT_ACCESS_EXPIRES_IN'),
+      refreshExpiresIn: this.getString('JWT_REFRESH_EXPIRES_IN'),
+      secret: this.getString('JWT_SECRET')
     };
   }
 }
