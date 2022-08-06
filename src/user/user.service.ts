@@ -16,21 +16,23 @@ export class UserService {
 
   async signIn(signInUserDto: SignInUserDto) {
     const user = await this.userRepository.findOne({
-      where: { email: signInUserDto.email }
+      where: {
+        [Op.and]: [
+          { email: signInUserDto.email },
+          { password: await bcrypt.hash(signInUserDto.password, 5) }
+        ]
+      }
     });
 
     if (!user)
-      throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('wrong-credentials', HttpStatus.BAD_REQUEST);
 
-    const isPasswordValid = bcrypt.compare(
-      user.password,
-      bcrypt.hash(signInUserDto.password, 5)
-    );
+    const { refreshToken, accessToken } = await this.authService.updateTokens({
+      userId: user.id,
+      username: user.username
+    });
 
-    if (!isPasswordValid)
-      throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
-
-    return signInUserDto;
+    return { _rt: refreshToken, _at: accessToken };
   }
 
   async signUp(signUpUserDto: SignUpUserDto) {

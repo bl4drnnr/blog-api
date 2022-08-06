@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { SessionModel } from '../models/session.model';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '../shared/config.service';
+import { AccessTokenDto } from "./dto/access-token.dto";
+import { RefreshTokenDto } from "./dto/refresh-token.dto";
 
 @Injectable()
 export class AuthService {
@@ -16,8 +18,16 @@ export class AuthService {
     //
   }
 
-  updateTokens() {
-    //
+  async updateTokens(accessTokenDto: AccessTokenDto) {
+    const accessToken = this.generateAccessToken(accessTokenDto);
+    const refreshToken = this.generateRefreshToken();
+
+    await this.updateRefreshToken({
+      userId: accessTokenDto.userId,
+      tokenId: refreshToken.id
+    });
+
+    return { accessToken, refreshToken: refreshToken.token };
   }
 
   deleteRefreshToken() {
@@ -28,11 +38,18 @@ export class AuthService {
     //
   }
 
-  private generateAccessToken() {
-    //
+  private generateAccessToken(accessTokenDto: AccessTokenDto) {
+    return accessTokenDto;
   }
 
   private generateRefreshToken() {
-    //
+    return null;
+  }
+
+  private async updateRefreshToken(refreshTokenDto: RefreshTokenDto) {
+    await this.sessionRepository.destroy({
+      where: { userId: refreshTokenDto.userId }
+    });
+    return await this.sessionRepository.create(refreshTokenDto);
   }
 }
