@@ -35,8 +35,10 @@ export class AuthService {
     //
   }
 
-  verifyToken() {
-    //
+  verifyToken(token: string) {
+    return this.jwtService.verify(token, {
+      secret: this.configService.jwtAuthConfig.secret
+    });
   }
 
   private generateAccessToken(accessTokenDto: AccessTokenDto) {

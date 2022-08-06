@@ -12,7 +12,7 @@ import { SharedModule } from './shared/shared.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`
+      envFilePath: '.env'
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
