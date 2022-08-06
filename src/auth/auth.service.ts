@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Session } from '../models/session.model';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '../shared/config.service';
-import { AccessTokenDto } from './dto/access-token.dto';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { AccessTokenDto } from '../dto/token/access-token.dto';
+import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
 import * as uuid from 'uuid';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   deleteRefreshToken() {
-    //
+    // delete by user id
   }
 
   verifyToken(token: string) {
@@ -75,4 +75,27 @@ export class AuthService {
     });
     return await this.sessionRepository.create(refreshTokenDto);
   }
+
+  //   refreshToken: async ({ _rt }, { transaction } = { transaction: null }) => {
+  //   const payload = jwtService.verifyToken({ token: _rt })
+  //
+  //   if (payload.type !== 'refresh') throw ApiError.UnauthorizedError()
+  //
+  //   const token = await jwtService.getTokenByTokenId({ tokenId: payload.id }, { transaction })
+  //
+  //   if (!token) throw ApiError.UnauthorizedError()
+  //
+  //   const user = await userRepository.getUser({
+  //     id: cryptoService.decrypt(token.userId)
+  //   }, { transaction })
+  //
+  //   const tokens = await jwtService.updateTokens({
+  //     userId: cryptoService.decrypt(token.userId),
+  //     username: user.username,
+  //     personalId: user.personalId,
+  //     reputation: user.reputation
+  //   }, { transaction })
+  //
+  //   return { _at: tokens.accessToken, _rt: tokens.refreshToken }
+  // },
 }
