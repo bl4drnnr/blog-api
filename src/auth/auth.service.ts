@@ -31,7 +31,11 @@ export class AuthService {
     return { accessToken, refreshToken: refreshToken.token };
   }
 
-  deleteRefreshToken() {
+  async refreshToken() {
+    //
+  }
+
+  async deleteRefreshToken() {
     // delete by user id
   }
 

@@ -1,8 +1,9 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { PostService } from './post.service';
 import { CreatePostDto } from '../dto/post/create-post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../decorator/role.decorator';
+import { Post as PostModel } from '../models/post.model';
 
 @ApiTags('Post')
 @Controller('post')
@@ -26,9 +27,21 @@ export class PostController {
   }
 
   @ApiOperation({ summary: 'Resource allows everyone to get post' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: PostModel })
   @Get(':slug')
   getPostBySlug(@Param('slug') slug: string) {
     return this.postService.getPostBySlug(slug);
+  }
+
+  @ApiOperation({ summary: 'Get posts' })
+  @ApiResponse({ status: 200, type: [PostModel] })
+  @Get(':offset/:limit/:from/:to')
+  getPosts(
+    @Param('offset', ParseIntPipe) offset: number,
+    @Param('limit', ParseIntPipe) limit: number,
+    @Param('from') from: string,
+    @Param('to') to: string
+  ) {
+    return this.postService.getPosts({ offset, limit, from, to });
   }
 }
