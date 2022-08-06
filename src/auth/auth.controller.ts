@@ -1,6 +1,6 @@
-import { Controller, Get } from "@nestjs/common";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { AuthService } from "./auth.service";
+import { Controller, Get } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {

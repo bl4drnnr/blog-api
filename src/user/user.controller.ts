@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignUpUserDto } from '../dto/user/sign-up-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SignInUserDto } from '../dto/user/sign-in-user.dto';
 import { Roles } from '../decorator/role.decorator';
+import { RoleGuard } from '../guard/role.guard';
+import { AuthGuard } from '../guard/auth.guard';
 
 @ApiTags('User')
 @Controller('user')
@@ -26,6 +28,7 @@ export class UserController {
 
   @ApiOperation({ summary: 'Resource for user logout' })
   @ApiResponse({ status: 200 })
+  @UseGuards(AuthGuard)
   @Post('/logout')
   logout() {
     return this.userService.logout();
@@ -33,6 +36,7 @@ export class UserController {
 
   @ApiOperation({ summary: 'Get all users. Allowed only for ADMIN' })
   @ApiResponse({ status: 200 })
+  @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Get()
   getAllUsers() {

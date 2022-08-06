@@ -1,9 +1,19 @@
-import { Controller, Delete, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  UseGuards
+} from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from '../dto/post/create-post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../decorator/role.decorator';
 import { Post as PostModel } from '../models/post.model';
+import { RoleGuard } from '../guard/role.guard';
+import { AuthGuard } from '../guard/auth.guard';
 
 @ApiTags('Post')
 @Controller('post')
@@ -11,7 +21,8 @@ export class PostController {
   constructor(private postService: PostService) {}
 
   @ApiOperation({ summary: 'Resource allows administrator to create posts' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: PostModel })
+  @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
   createPost(createPostDto: CreatePostDto) {
@@ -19,7 +30,8 @@ export class PostController {
   }
 
   @ApiOperation({ summary: 'Resource allows administrator to delete posts' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: PostModel })
+  @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Delete(':id')
   deletePost(@Param(':id') id: string) {
