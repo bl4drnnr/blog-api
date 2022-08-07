@@ -11,8 +11,13 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from './user.model';
 
-@Table
-export class Session extends Model<Session> {
+interface SessionAttributes {
+  userId: string;
+  tokenId: string;
+}
+
+@Table({ createdAt: false, updatedAt: false })
+export class Session extends Model<Session, SessionAttributes> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'

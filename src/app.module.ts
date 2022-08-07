@@ -9,8 +9,8 @@ import { User } from './models/user.model';
 import { Session } from './models/session.model';
 import { SharedModule } from './shared/shared.module';
 import { RoleModule } from './role/role.module';
-import { Role } from "./models/role.model";
-import { UserRole } from "./models/user-role.model";
+import { Role } from './models/role.model';
+import { UserRole } from './models/user-role.model';
 
 @Module({
   imports: [
