@@ -6,7 +6,8 @@ import { SignInUserDto } from '../dto/user/sign-in-user.dto';
 import { Roles } from '../decorator/role.decorator';
 import { RoleGuard } from '../guard/role.guard';
 import { AuthGuard } from '../guard/auth.guard';
-import { User } from '../decorator/user.decorator';
+import { User } from '../models/user.model';
+import { User as UserId } from '../decorator/user.decorator';
 
 @ApiTags('User')
 @Controller('user')
@@ -31,12 +32,12 @@ export class UserController {
   @ApiResponse({ status: 200 })
   @UseGuards(AuthGuard)
   @Post('/logout')
-  logout(@User() userId) {
+  logout(@UserId() userId) {
     return this.userService.logout(userId);
   }
 
   @ApiOperation({ summary: 'Get all users. Allowed only for ADMIN role' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: [User] })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Get()

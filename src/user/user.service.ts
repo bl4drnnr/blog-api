@@ -65,9 +65,9 @@ export class UserService {
     return await this.authService.deleteRefreshToken(userId);
   }
 
-  async getUserById(id: string) {
+  async getUser(conditionals: object) {
     return await this.userRepository.findOne({
-      where: { id }
+      where: { ...conditionals }
     });
   }
 

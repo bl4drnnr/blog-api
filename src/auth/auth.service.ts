@@ -17,10 +17,10 @@ import * as uuid from 'uuid';
 export class AuthService {
   constructor(
     @InjectModel(Session) private sessionRepository: typeof Session,
-    private jwtService: JwtService,
-    private configService: ConfigService,
     @Inject(forwardRef(() => UserService))
-    private userService: UserService
+    private userService: UserService,
+    private jwtService: JwtService,
+    private configService: ConfigService
   ) {}
 
   async getTokenById(tokenId: string) {
@@ -51,7 +51,7 @@ export class AuthService {
 
     if (!token) throw new UnauthorizedException({ message: 'unauthorized' });
 
-    const user = await this.userService.getUserById(token.userId);
+    const user = await this.userService.getUser({ userId: token.userId });
 
     const { accessToken, refreshToken } = await this.updateTokens({
       userId: user.id,
