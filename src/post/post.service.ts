@@ -13,15 +13,11 @@ export class PostService {
   }
 
   async getPostBySlug(slug: string): Promise<Post> {
-    return await this.postRepository.findOne({
-      where: { slug }
-    });
+    return await this.postRepository.findOne({ where: { slug } });
   }
 
   async deletePost(id: string): Promise<number> {
-    return await this.postRepository.destroy({
-      where: { id }
-    });
+    return await this.postRepository.destroy({ where: { id } });
   }
 
   async getPosts({
@@ -36,11 +32,7 @@ export class PostService {
     to: string;
   }): Promise<{ rows: Post[]; count: number }> {
     return await this.postRepository.findAndCountAll({
-      where: {
-        createdAt: {
-          [Op.between]: [from, to]
-        }
-      },
+      where: { createdAt: { [Op.between]: [from, to] } },
       order: [['createdAt', 'DESC']],
       limit,
       offset

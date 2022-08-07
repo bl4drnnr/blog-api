@@ -25,9 +25,7 @@ export class AuthService {
   ) {}
 
   async getTokenById(tokenId: string): Promise<Session> {
-    return await this.sessionRepository.findOne({
-      where: { tokenId }
-    });
+    return await this.sessionRepository.findOne({ where: { tokenId } });
   }
 
   async updateTokens(accessTokenDto: AccessTokenDto): Promise<TokensDto> {
@@ -65,9 +63,7 @@ export class AuthService {
   }
 
   async deleteRefreshToken(userId: string): Promise<number> {
-    return await this.sessionRepository.destroy({
-      where: { userId }
-    });
+    return await this.sessionRepository.destroy({ where: { userId } });
   }
 
   verifyToken<T extends { id: string; type: string; userId: string }>(
@@ -95,10 +91,7 @@ export class AuthService {
 
   private generateRefreshToken(): { id: string; token: string } {
     const id = uuid.v4();
-    const payload = {
-      id,
-      type: 'refresh'
-    };
+    const payload = { id, type: 'refresh' };
     const options = {
       expiresIn: this.configService.jwtAuthConfig.refreshExpiresIn,
       secret: this.configService.jwtAuthConfig.secret
