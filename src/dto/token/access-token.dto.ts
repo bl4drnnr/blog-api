@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from "../../models/role.model";
+import { Role } from '../../models/role.model';
 
 export class AccessTokenDto {
   @ApiProperty({
@@ -15,7 +15,7 @@ export class AccessTokenDto {
   readonly username: string;
 
   @ApiProperty({
-    example: '[\'ADMIN\', \'USER\']',
+    example: "['ADMIN', 'USER']",
     description: 'List of user roles'
   })
   readonly roles: Role[];

@@ -15,7 +15,7 @@ import { AuthService } from '../auth/auth.service';
 import { RoleService } from '../role/role.service';
 import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
-import { Role } from "../models/role.model";
+import { Role } from '../models/role.model';
 
 @Injectable()
 export class UserService {
