@@ -18,7 +18,7 @@ export class RoleController {
   })
   @ApiResponse({ status: 200, type: Role })
   @Post()
-  createRole(@Body() roleDto: RoleDto) {
+  createRole(@Body() roleDto: RoleDto): Promise<Role> {
     return this.roleService.createRole(roleDto);
   }
 
@@ -29,7 +29,9 @@ export class RoleController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/distribute')
-  distributeRole(@Body() distributeRoleDto: DistributeRoleDto) {
+  distributeRole(
+    @Body() distributeRoleDto: DistributeRoleDto
+  ): Promise<DistributeRoleDto> {
     return this.roleService.distributeRole(distributeRoleDto);
   }
 }

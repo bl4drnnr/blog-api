@@ -16,6 +16,7 @@ import { RoleService } from '../role/role.service';
 import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
 import { Role } from '../models/role.model';
+import { TokensDto } from '../dto/token/tokens.dto';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,7 @@ export class UserService {
     private roleService: RoleService
   ) {}
 
-  async signIn(signInUserDto: SignInUserDto) {
+  async signIn(signInUserDto: SignInUserDto): Promise<TokensDto> {
     const user = await this.userRepository.findOne({
       where: { email: signInUserDto.email },
       include: [
@@ -47,16 +48,14 @@ export class UserService {
     if (!user || !passwordEquality)
       throw new HttpException('wrong-credentials', HttpStatus.BAD_REQUEST);
 
-    const { refreshToken, accessToken } = await this.authService.updateTokens({
+    return await this.authService.updateTokens({
       userId: user.id,
       username: user.username,
       roles: user.roles
     });
-
-    return { _rt: refreshToken, _at: accessToken };
   }
 
-  async signUp(signUpUserDto: SignUpUserDto) {
+  async signUp(signUpUserDto: SignUpUserDto): Promise<User> {
     const sameEmailUsernameUser = await this.userRepository.findOne({
       where: {
         [Op.or]: [
@@ -82,7 +81,7 @@ export class UserService {
     return user;
   }
 
-  async getUser(conditionals: object) {
+  async getUser(conditionals: object): Promise<User> {
     return await this.userRepository.findOne({
       where: { ...conditionals },
       include: [
@@ -95,15 +94,15 @@ export class UserService {
     });
   }
 
-  async logout(userId: string) {
+  async logout(userId: string): Promise<number> {
     return await this.authService.deleteRefreshToken(userId);
   }
 
-  async getAllUsers() {
+  async getAllUsers(): Promise<User[]> {
     return await this.userRepository.findAll();
   }
 
-  async banUser(banUserDto: BanUserDto) {
+  async banUser(banUserDto: BanUserDto): Promise<UserBan> {
     const user = await this.userRepository.findOne({
       where: { email: banUserDto.email }
     });

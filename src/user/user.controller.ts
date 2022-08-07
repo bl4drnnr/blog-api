@@ -10,6 +10,7 @@ import { User } from '../models/user.model';
 import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
 import { User as UserDecorator } from '../decorator/user.decorator';
+import { TokensDto } from '../dto/token/tokens.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -17,24 +18,24 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @ApiOperation({ summary: 'Resource for sign in user.' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: TokensDto })
   @Post('/sign-in')
-  signIn(@Body() signInUserDto: SignInUserDto) {
+  signIn(@Body() signInUserDto: SignInUserDto): Promise<TokensDto> {
     return this.userService.signIn(signInUserDto);
   }
 
   @ApiOperation({ summary: 'Resource for sign up user.' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: User })
   @Post('/sign-up')
-  signUp(@Body() signUpUserDto: SignUpUserDto) {
+  signUp(@Body() signUpUserDto: SignUpUserDto): Promise<User> {
     return this.userService.signUp(signUpUserDto);
   }
 
   @ApiOperation({ summary: 'Resource for user logout.' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: '1' })
   @UseGuards(AuthGuard)
   @Post('/logout')
-  logout(@UserDecorator() user) {
+  logout(@UserDecorator() user): Promise<number> {
     return this.userService.logout(user);
   }
 
@@ -46,16 +47,16 @@ export class UserController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Get()
-  getAllUsers() {
+  getAllUsers(): Promise<User[]> {
     return this.userService.getAllUsers();
   }
 
   @ApiOperation({ summary: 'Resource allows user with ADMIN role ban user.' })
-  @ApiResponse({ status: 200, type: [UserBan] })
+  @ApiResponse({ status: 200, type: UserBan })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/ban')
-  banUser(@Body() banUserDto: BanUserDto) {
+  banUser(@Body() banUserDto: BanUserDto): Promise<UserBan> {
     return this.userService.banUser(banUserDto);
   }
 }

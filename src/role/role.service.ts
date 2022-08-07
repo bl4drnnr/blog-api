@@ -19,17 +19,19 @@ export class RoleService {
     private userService: UserService
   ) {}
 
-  async createRole(roleDto: RoleDto) {
+  async createRole(roleDto: RoleDto): Promise<Role> {
     return await this.roleRepository.create(roleDto);
   }
 
-  async getRole(conditionals: object) {
+  async getRole(conditionals: object): Promise<Role> {
     return await this.roleRepository.findOne({
       where: { ...conditionals }
     });
   }
 
-  async distributeRole(distributeRoleDto: DistributeRoleDto) {
+  async distributeRole(
+    distributeRoleDto: DistributeRoleDto
+  ): Promise<DistributeRoleDto> {
     const user = await this.userService.getUser({
       username: distributeRoleDto.username
     });

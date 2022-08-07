@@ -12,6 +12,7 @@ import { AccessTokenDto } from '../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
 import * as uuid from 'uuid';
+import { TokensDto } from '../dto/token/tokens.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,13 +24,13 @@ export class AuthService {
     private configService: ConfigService
   ) {}
 
-  async getTokenById(tokenId: string) {
+  async getTokenById(tokenId: string): Promise<Session> {
     return await this.sessionRepository.findOne({
       where: { tokenId }
     });
   }
 
-  async updateTokens(accessTokenDto: AccessTokenDto) {
+  async updateTokens(accessTokenDto: AccessTokenDto): Promise<TokensDto> {
     const accessToken = this.generateAccessToken(accessTokenDto);
     const refreshToken = this.generateRefreshToken();
 
@@ -38,10 +39,10 @@ export class AuthService {
       tokenId: refreshToken.id
     });
 
-    return { accessToken, refreshToken: refreshToken.token };
+    return { _at: accessToken, _rt: refreshToken.token };
   }
 
-  async refreshToken(tokenRefresh: string) {
+  async refreshToken(tokenRefresh: string): Promise<TokensDto> {
     if (!tokenRefresh)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
@@ -56,28 +57,28 @@ export class AuthService {
 
     const user = await this.userService.getUser({ id: token.userId });
 
-    const { accessToken, refreshToken } = await this.updateTokens({
+    return await this.updateTokens({
       userId: user.id,
       username: user.username,
       roles: user.roles
     });
-
-    return { _at: accessToken, _rt: refreshToken };
   }
 
-  async deleteRefreshToken(userId: string) {
+  async deleteRefreshToken(userId: string): Promise<number> {
     return await this.sessionRepository.destroy({
       where: { userId }
     });
   }
 
-  verifyToken(token: string) {
+  verifyToken<T extends { id: string; type: string; userId: string }>(
+    token: string
+  ): T {
     return this.jwtService.verify(token, {
       secret: this.configService.jwtAuthConfig.secret
     });
   }
 
-  private generateAccessToken(accessTokenDto: AccessTokenDto) {
+  private generateAccessToken(accessTokenDto: AccessTokenDto): string {
     const payload = {
       userId: accessTokenDto.userId,
       username: accessTokenDto.username,
@@ -92,7 +93,7 @@ export class AuthService {
     return this.jwtService.sign(payload, options);
   }
 
-  private generateRefreshToken() {
+  private generateRefreshToken(): { id: string; token: string } {
     const id = uuid.v4();
     const payload = {
       id,
@@ -106,7 +107,9 @@ export class AuthService {
     return { id, token: this.jwtService.sign(payload, options) };
   }
 
-  private async updateRefreshToken(refreshTokenDto: RefreshTokenDto) {
+  private async updateRefreshToken(
+    refreshTokenDto: RefreshTokenDto
+  ): Promise<Session> {
     await this.sessionRepository.destroy({
       where: { userId: refreshTokenDto.userId }
     });

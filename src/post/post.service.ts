@@ -8,17 +8,17 @@ import { Op } from 'sequelize';
 export class PostService {
   constructor(@InjectModel(Post) private postRepository: typeof Post) {}
 
-  async createPost(createPostDto: PostDto) {
+  async createPost(createPostDto: PostDto): Promise<Post> {
     return await this.postRepository.create(createPostDto);
   }
 
-  async getPostBySlug(slug: string) {
+  async getPostBySlug(slug: string): Promise<Post> {
     return await this.postRepository.findOne({
       where: { slug }
     });
   }
 
-  async deletePost(id: string) {
+  async deletePost(id: string): Promise<number> {
     return await this.postRepository.destroy({
       where: { id }
     });
@@ -34,7 +34,7 @@ export class PostService {
     limit: number;
     from: string;
     to: string;
-  }) {
+  }): Promise<{ rows: Post[]; count: number }> {
     return await this.postRepository.findAndCountAll({
       where: {
         createdAt: {

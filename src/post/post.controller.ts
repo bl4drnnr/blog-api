@@ -25,7 +25,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
-  createPost(createPostDto: PostDto) {
+  createPost(createPostDto: PostDto): Promise<PostModel> {
     return this.postService.createPost(createPostDto);
   }
 
@@ -34,14 +34,14 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Delete(':id')
-  deletePost(@Param(':id') id: string) {
+  deletePost(@Param(':id') id: string): Promise<number> {
     return this.postService.deletePost(id);
   }
 
   @ApiOperation({ summary: 'Resource allows everyone to get post.' })
   @ApiResponse({ status: 200, type: PostModel })
   @Get(':slug')
-  getPostBySlug(@Param('slug') slug: string) {
+  getPostBySlug(@Param('slug') slug: string): Promise<PostModel> {
     return this.postService.getPostBySlug(slug);
   }
 
@@ -53,7 +53,7 @@ export class PostController {
     @Param('limit', ParseIntPipe) limit: number,
     @Param('from') from: string,
     @Param('to') to: string
-  ) {
+  ): Promise<{ rows: PostModel[]; count: number }> {
     return this.postService.getPosts({ offset, limit, from, to });
   }
 }
