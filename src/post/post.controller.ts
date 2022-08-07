@@ -20,7 +20,7 @@ import { AuthGuard } from '../guard/auth.guard';
 export class PostController {
   constructor(private postService: PostService) {}
 
-  @ApiOperation({ summary: 'Resource allows administrator to create posts' })
+  @ApiOperation({ summary: 'Resource allows administrator to create posts.' })
   @ApiResponse({ status: 200, type: PostModel })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
@@ -29,7 +29,7 @@ export class PostController {
     return this.postService.createPost(createPostDto);
   }
 
-  @ApiOperation({ summary: 'Resource allows administrator to delete posts' })
+  @ApiOperation({ summary: 'Resource allows administrator to delete posts.' })
   @ApiResponse({ status: 200, type: PostModel })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
@@ -38,14 +38,14 @@ export class PostController {
     return this.postService.deletePost(id);
   }
 
-  @ApiOperation({ summary: 'Resource allows everyone to get post' })
+  @ApiOperation({ summary: 'Resource allows everyone to get post.' })
   @ApiResponse({ status: 200, type: PostModel })
   @Get(':slug')
   getPostBySlug(@Param('slug') slug: string) {
     return this.postService.getPostBySlug(slug);
   }
 
-  @ApiOperation({ summary: 'Get posts' })
+  @ApiOperation({ summary: 'Resource allows to get posts.' })
   @ApiResponse({ status: 200, type: [PostModel] })
   @Get(':offset/:limit/:from/:to')
   getPosts(

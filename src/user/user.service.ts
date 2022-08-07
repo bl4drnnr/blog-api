@@ -12,13 +12,15 @@ import { SignInUserDto } from '../dto/user/sign-in-user.dto';
 import { Op } from 'sequelize';
 import * as bcrypt from 'bcryptjs';
 import { AuthService } from '../auth/auth.service';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
     @Inject(forwardRef(() => AuthService))
-    private authService: AuthService
+    private authService: AuthService,
+    private roleService: RoleService
   ) {}
 
   async signIn(signInUserDto: SignInUserDto) {
@@ -55,20 +57,26 @@ export class UserService {
       throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
 
     const hashedPassword = await bcrypt.hash(signUpUserDto.password, 5);
-    return await this.userRepository.create({
+    const user = await this.userRepository.create({
       ...signUpUserDto,
       password: hashedPassword
     });
-  }
+    const role = await this.roleService.getRole({ value: 'USER' });
 
-  async logout(userId: string) {
-    return await this.authService.deleteRefreshToken(userId);
+    await user.$set('roles', [role.id]);
+    user.roles = [role];
+
+    return user;
   }
 
   async getUser(conditionals: object) {
     return await this.userRepository.findOne({
       where: { ...conditionals }
     });
+  }
+
+  async logout(userId: string) {
+    return await this.authService.deleteRefreshToken(userId);
   }
 
   async getAllUsers() {

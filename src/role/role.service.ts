@@ -16,6 +16,12 @@ export class RoleService {
     return await this.roleRepository.create(roleDto);
   }
 
+  async getRole(conditionals: object) {
+    return await this.roleRepository.findOne({
+      where: { ...conditionals }
+    });
+  }
+
   async distributeRole(distributeRoleDto: DistributeRoleDto) {
     const user = await this.userService.getUser({
       username: distributeRoleDto.username
@@ -31,14 +37,3 @@ export class RoleService {
     throw new HttpException('no-role-or-user', HttpStatus.NOT_FOUND);
   }
 }
-
-// async addRole(addRoleDto: AddRoleDto) {
-//   const user = await this.getUserByEmail(addRoleDto.email);
-//   const role = await this.roleService.getRoleByName(addRoleDto.value);
-//
-//   if (role && user) {
-//     await user.$add('role', role.id);
-//     return addRoleDto;
-//   }
-//   throw new HttpException('no-role-or-user', HttpStatus.NOT_FOUND);
-// }

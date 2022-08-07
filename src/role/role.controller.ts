@@ -11,7 +11,7 @@ export class RoleController {
   constructor(private roleService: RoleService) {}
 
   @ApiOperation({
-    summary: 'Resource allows user with role ADMIN to create new roles'
+    summary: 'Resource allows user with role ADMIN to create new roles.'
   })
   @ApiResponse({ status: 200, type: Role })
   @Post()
@@ -20,7 +20,7 @@ export class RoleController {
   }
 
   @ApiOperation({
-    summary: 'Resource allow user with role ADMIN to distribute roles'
+    summary: 'Resource allow user with role ADMIN to distribute roles.'
   })
   @ApiResponse({ status: 200, type: DistributeRoleDto })
   @Post('/distribute')

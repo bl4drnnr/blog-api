@@ -14,21 +14,21 @@ import { User as UserId } from '../decorator/user.decorator';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @ApiOperation({ summary: 'Resource for sign in user' })
+  @ApiOperation({ summary: 'Resource for sign in user.' })
   @ApiResponse({ status: 200 })
   @Post('/sign-in')
   signIn(@Body() signInUserDto: SignInUserDto) {
     return this.userService.signIn(signInUserDto);
   }
 
-  @ApiOperation({ summary: 'Resource for sign up user' })
+  @ApiOperation({ summary: 'Resource for sign up user.' })
   @ApiResponse({ status: 200 })
   @Post('/sign-up')
   signUp(@Body() signUpUserDto: SignUpUserDto) {
     return this.userService.signUp(signUpUserDto);
   }
 
-  @ApiOperation({ summary: 'Resource for user logout' })
+  @ApiOperation({ summary: 'Resource for user logout.' })
   @ApiResponse({ status: 200 })
   @UseGuards(AuthGuard)
   @Post('/logout')
@@ -36,7 +36,10 @@ export class UserController {
     return this.userService.logout(userId);
   }
 
-  @ApiOperation({ summary: 'Get all users. Allowed only for ADMIN role' })
+  @ApiOperation({
+    summary:
+      'Resource for getting all users. Allowed only for users with ADMIN role.'
+  })
   @ApiResponse({ status: 200, type: [User] })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
