@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignUpUserDto } from '../dto/user/sign-up-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -8,6 +16,8 @@ import { RoleGuard } from '../guard/role.guard';
 import { AuthGuard } from '../guard/auth.guard';
 import { User } from '../models/user.model';
 import { User as UserId } from '../decorator/user.decorator';
+import { BanUserDto } from '../dto/user/ban-user.dto';
+import { UserBan } from '../models/user-ban.model';
 
 @ApiTags('User')
 @Controller('user')
@@ -46,5 +56,14 @@ export class UserController {
   @Get()
   getAllUsers() {
     return this.userService.getAllUsers();
+  }
+
+  @ApiOperation({ summary: 'Resource allows user with ADMIN role ban user.' })
+  @ApiResponse({ status: 200, type: [UserBan] })
+  @UseGuards(RoleGuard, AuthGuard)
+  @Roles('ADMIN')
+  @Put(':email')
+  banUser(@Param('email') email: string, @Body() banUserDto: BanUserDto) {
+    return this.userService.banUser(email, banUserDto);
   }
 }

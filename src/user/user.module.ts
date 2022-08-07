@@ -6,12 +6,13 @@ import { User } from '../models/user.model';
 import { AuthModule } from '../auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { RoleModule } from '../role/role.module';
+import { UserBan } from '../models/user-ban.model';
 
 @Module({
   controllers: [UserController],
   providers: [UserService],
   imports: [
-    SequelizeModule.forFeature([User]),
+    SequelizeModule.forFeature([User, UserBan]),
     forwardRef(() => AuthModule),
     forwardRef(() => RoleModule),
     JwtModule

@@ -1,4 +1,10 @@
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable
+} from '@nestjs/common';
 import { RoleDto } from '../dto/role/role.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Role } from '../models/role.model';

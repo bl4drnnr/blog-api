@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { RoleModule } from './role/role.module';
 import { Role } from './models/role.model';
 import { UserRole } from './models/user-role.model';
+import { UserBan } from './models/user-ban.model';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { UserRole } from './models/user-role.model';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [Post, User, Session, Role, UserRole],
+      models: [Post, User, Session, Role, UserRole, UserBan],
       autoLoadModels: true
     }),
     UserModule,

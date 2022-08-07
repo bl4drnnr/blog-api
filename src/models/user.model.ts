@@ -12,6 +12,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Session } from './session.model';
 import { Role } from './role.model';
 import { UserRole } from './user-role.model';
+import { UserBan } from './user-ban.model';
 
 interface UserCreatingAttributes {
   email: string;
@@ -66,6 +67,9 @@ export class User extends Model<User, UserCreatingAttributes> {
 
   @HasOne(() => Session)
   session: Session;
+
+  @HasOne(() => UserBan)
+  ban: UserBan;
 
   @BelongsToMany(() => Role, () => UserRole)
   roles: Role[];
