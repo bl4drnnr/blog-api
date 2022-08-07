@@ -20,6 +20,7 @@ export class UserService {
     @InjectModel(User) private userRepository: typeof User,
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
+    @Inject(forwardRef(() => RoleService))
     private roleService: RoleService
   ) {}
 
