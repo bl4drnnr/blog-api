@@ -6,16 +6,16 @@ import { ConfigService } from '../shared/config.service';
 import { AccessTokenDto } from '../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
 import * as uuid from 'uuid';
-import { UserService } from '../user/user.service';
+// import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(Session) private sessionRepository: typeof Session,
     private jwtService: JwtService,
-    private configService: ConfigService,
-    private userService: UserService
-  ) {}
+    private configService: ConfigService
+  ) // private userService: UserService
+  {}
 
   async getTokenById(tokenId: string) {
     return await this.sessionRepository.findOne({
@@ -45,14 +45,14 @@ export class AuthService {
 
     if (!token) throw new UnauthorizedException({ message: 'unauthorized' });
 
-    const user = await this.userService.getUserById(token.userId);
+    // const user = await this.userService.getUserById(token.userId);
 
-    const { accessToken, refreshToken } = await this.updateTokens({
-      userId: user.id,
-      username: user.username
-    });
+    // const { accessToken, refreshToken } = await this.updateTokens({
+    //   userId: user.id,
+    //   username: user.username
+    // });
 
-    return { _at: accessToken, _rt: refreshToken };
+    // return { _at: accessToken, _rt: refreshToken };
   }
 
   async deleteRefreshToken(userId: string) {

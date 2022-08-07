@@ -10,6 +10,6 @@ export class AuthController {
   @ApiResponse({ status: 200 })
   @Get()
   refreshToken() {
-    return this.authService.refreshToken();
+    // return this.authService.refreshToken();
   }
 }

@@ -8,6 +8,9 @@ import { Post } from './models/post.model';
 import { User } from './models/user.model';
 import { Session } from './models/session.model';
 import { SharedModule } from './shared/shared.module';
+import { RoleModule } from './role/role.module';
+import { Role } from "./models/role.model";
+import { UserRole } from "./models/user-role.model";
 
 @Module({
   imports: [
@@ -21,13 +24,14 @@ import { SharedModule } from './shared/shared.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [Post, User, Session],
+      models: [Post, User, Session, Role, UserRole],
       autoLoadModels: true
     }),
     UserModule,
     AuthModule,
     PostModule,
-    SharedModule
+    SharedModule,
+    RoleModule
   ]
 })
 export class AppModule {}
