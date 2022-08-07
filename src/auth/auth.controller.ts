@@ -16,12 +16,12 @@ export class AuthController {
       req.cookies['_rt']
     );
 
-    res.cookie('_at', _at, {
+    res.cookie('_rt', _rt, {
       httpOnly: true,
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
-    return res.status(200).json({ _rt });
+    return res.status(200).json({ _at });
   }
 }
