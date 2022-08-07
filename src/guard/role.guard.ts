@@ -9,10 +9,16 @@ import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorator/role.decorator';
+import { ConfigService } from '../shared/config.service';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector,
+    private configService: ConfigService
+  ) {}
+
   canActivate(
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -33,7 +39,10 @@ export class RoleGuard implements CanActivate {
       if (bearer !== 'Bearer' || !token)
         throw new HttpException('forbidden', HttpStatus.FORBIDDEN);
 
-      const user = this.jwtService.verify(token);
+      const user = this.jwtService.verify(token, {
+        secret: this.configService.jwtAuthConfig.secret
+      });
+
       req.user = user;
       return user.roles.some((role) => requiredRoles.includes(role.value));
     } catch (e) {

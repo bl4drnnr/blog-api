@@ -15,6 +15,7 @@ import { AuthService } from '../auth/auth.service';
 import { RoleService } from '../role/role.service';
 import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
+import { Role } from "../models/role.model";
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,8 @@ export class UserService {
 
   async signIn(signInUserDto: SignInUserDto) {
     const user = await this.userRepository.findOne({
-      where: { email: signInUserDto.email }
+      where: { email: signInUserDto.email },
+      include: Role
     });
     const passwordEquality = await bcrypt.compare(
       signInUserDto.password,
@@ -41,7 +43,8 @@ export class UserService {
 
     const { refreshToken, accessToken } = await this.authService.updateTokens({
       userId: user.id,
-      username: user.username
+      username: user.username,
+      roles: user.roles
     });
 
     return { _rt: refreshToken, _at: accessToken };
@@ -75,7 +78,8 @@ export class UserService {
 
   async getUser(conditionals: object) {
     return await this.userRepository.findOne({
-      where: { ...conditionals }
+      where: { ...conditionals },
+      include: Role
     });
   }
 

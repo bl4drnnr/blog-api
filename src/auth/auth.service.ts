@@ -55,7 +55,8 @@ export class AuthService {
 
     const { accessToken, refreshToken } = await this.updateTokens({
       userId: user.id,
-      username: user.username
+      username: user.username,
+      roles: user.roles
     });
 
     return { _at: accessToken, _rt: refreshToken };
@@ -77,6 +78,7 @@ export class AuthService {
     const payload = {
       userId: accessTokenDto.userId,
       username: accessTokenDto.username,
+      roles: accessTokenDto.roles,
       type: 'access'
     };
     const options = {
