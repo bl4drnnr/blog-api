@@ -9,7 +9,7 @@ export class DistributeRoleDto {
 
   @ApiProperty({
     example: 'ADMIN',
-    description: 'Role for this user'
+    description: 'Describes user role and restrict access to endpoints'
   })
   readonly value: string;
 }

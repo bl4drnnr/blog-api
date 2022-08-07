@@ -8,7 +8,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { PostService } from './post.service';
-import { CreatePostDto } from '../dto/post/create-post.dto';
+import { PostDto } from '../dto/post/post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../decorator/role.decorator';
 import { Post as PostModel } from '../models/post.model';
@@ -25,7 +25,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
-  createPost(createPostDto: CreatePostDto) {
+  createPost(createPostDto: PostDto) {
     return this.postService.createPost(createPostDto);
   }
 

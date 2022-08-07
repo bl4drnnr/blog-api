@@ -62,8 +62,8 @@ export class UserController {
   @ApiResponse({ status: 200, type: [UserBan] })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
-  @Put(':email')
-  banUser(@Param('email') email: string, @Body() banUserDto: BanUserDto) {
-    return this.userService.banUser(email, banUserDto);
+  @Post('/ban')
+  banUser(@Body() banUserDto: BanUserDto) {
+    return this.userService.banUser(banUserDto);
   }
 }

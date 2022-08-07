@@ -87,13 +87,13 @@ export class UserService {
     return await this.userRepository.findAll();
   }
 
-  async banUser(email: string, banUserDto: BanUserDto) {
+  async banUser(banUserDto: BanUserDto) {
     const user = await this.userRepository.findOne({
-      where: { email }
+      where: { email: banUserDto.email }
     });
     return await this.userBanRepository.create({
       userId: user.id,
-      ...banUserDto
+      reason: banUserDto.reason
     });
   }
 }
