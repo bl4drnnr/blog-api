@@ -7,9 +7,9 @@ import { Roles } from '../decorator/role.decorator';
 import { RoleGuard } from '../guard/role.guard';
 import { AuthGuard } from '../guard/auth.guard';
 import { User } from '../models/user.model';
-import { User as UserId } from '../decorator/user.decorator';
 import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
+import { User as UserDecorator } from '../decorator/user.decorator';
 
 @ApiTags('User')
 @Controller('user')
@@ -34,8 +34,8 @@ export class UserController {
   @ApiResponse({ status: 200 })
   @UseGuards(AuthGuard)
   @Post('/logout')
-  logout(@UserId() userId) {
-    return this.userService.logout(userId);
+  logout(@UserDecorator() user) {
+    return this.userService.logout(user);
   }
 
   @ApiOperation({

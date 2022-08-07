@@ -42,6 +42,9 @@ export class AuthService {
   }
 
   async refreshToken(tokenRefresh: string) {
+    if (!tokenRefresh)
+      throw new UnauthorizedException({ message: 'unauthorized' });
+
     const payload = this.verifyToken(tokenRefresh);
 
     if (payload.type !== 'refresh')
@@ -51,7 +54,7 @@ export class AuthService {
 
     if (!token) throw new UnauthorizedException({ message: 'unauthorized' });
 
-    const user = await this.userService.getUser({ userId: token.userId });
+    const user = await this.userService.getUser({ id: token.userId });
 
     const { accessToken, refreshToken } = await this.updateTokens({
       userId: user.id,

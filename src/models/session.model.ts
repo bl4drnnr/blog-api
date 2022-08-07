@@ -16,7 +16,7 @@ interface SessionAttributes {
   tokenId: string;
 }
 
-@Table({ createdAt: false, updatedAt: false })
+@Table
 export class Session extends Model<Session, SessionAttributes> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',

@@ -1,4 +1,4 @@
-import { Controller, Get, Headers } from '@nestjs/common';
+import { Controller, Get, Request } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 
@@ -9,8 +9,8 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Resource allows user to refresh token.' })
   @ApiResponse({ status: 200 })
-  @Get()
-  refreshToken(@Headers('_rt') _rt: string) {
-    return this.authService.refreshToken(_rt);
+  @Get('/refresh')
+  refreshToken(@Request() req) {
+    return this.authService.refreshToken(req.cookies['_rt']);
   }
 }
