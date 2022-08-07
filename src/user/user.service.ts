@@ -31,7 +31,13 @@ export class UserService {
   async signIn(signInUserDto: SignInUserDto) {
     const user = await this.userRepository.findOne({
       where: { email: signInUserDto.email },
-      include: Role
+      include: [
+        {
+          model: Role,
+          attributes: ['value'],
+          through: { attributes: [] }
+        }
+      ]
     });
     const passwordEquality = await bcrypt.compare(
       signInUserDto.password,
@@ -79,7 +85,13 @@ export class UserService {
   async getUser(conditionals: object) {
     return await this.userRepository.findOne({
       where: { ...conditionals },
-      include: Role
+      include: [
+        {
+          model: Role,
+          attributes: ['value'],
+          through: { attributes: [] }
+        }
+      ]
     });
   }
 
