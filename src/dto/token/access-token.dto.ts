@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '../../models/role.model';
+import { IsUUID } from 'class-validator';
 
 export class AccessTokenDto {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'User id used for token payload'
   })
+  @IsUUID(4)
   readonly userId: string;
 
   @ApiProperty({

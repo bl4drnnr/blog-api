@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CommentPostDto {
   @ApiProperty({
@@ -7,6 +7,7 @@ export class CommentPostDto {
     description: 'Unique uuid of record'
   })
   @IsNotEmpty()
+  @IsUUID(4)
   readonly postId: string;
 
   @ApiProperty({
