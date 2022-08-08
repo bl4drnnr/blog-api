@@ -3,10 +3,15 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Post } from '../models/post.model';
 import { PostDto } from '../dto/post/post.dto';
 import { Op } from 'sequelize';
+import { CommentPostDto } from '../dto/post/comment-post.dto';
+import { PostComment } from '../models/comment.model';
 
 @Injectable()
 export class PostService {
-  constructor(@InjectModel(Post) private postRepository: typeof Post) {}
+  constructor(
+    @InjectModel(Post) private postRepository: typeof Post,
+    @InjectModel(PostComment) private commentRepository: typeof PostComment
+  ) {}
 
   async createPost(createPostDto: PostDto): Promise<Post> {
     return await this.postRepository.create(createPostDto);
@@ -36,6 +41,16 @@ export class PostService {
       order: [['createdAt', 'DESC']],
       limit,
       offset
+    });
+  }
+
+  async commentPost(
+    commentPostDto: CommentPostDto,
+    userId: string
+  ): Promise<PostComment> {
+    return await this.commentRepository.create({
+      userId,
+      ...commentPostDto
     });
   }
 }

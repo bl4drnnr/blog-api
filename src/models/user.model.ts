@@ -3,6 +3,7 @@ import {
   Column,
   DataType,
   Default,
+  HasMany,
   HasOne,
   Model,
   PrimaryKey,
@@ -13,6 +14,7 @@ import { Session } from './session.model';
 import { Role } from './role.model';
 import { UserRole } from './user-role.model';
 import { UserBan } from './user-ban.model';
+import { PostComment } from './comment.model';
 
 interface UserCreatingAttributes {
   email: string;
@@ -70,6 +72,9 @@ export class User extends Model<User, UserCreatingAttributes> {
 
   @HasOne(() => UserBan)
   ban: UserBan;
+
+  @HasMany(() => PostComment)
+  comments: PostComment[];
 
   @BelongsToMany(() => Role, () => UserRole)
   roles: Role[];

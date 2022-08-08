@@ -1,7 +1,9 @@
-import { Controller, Get, Request, Response } from '@nestjs/common';
+import { Controller, Get, Response } from '@nestjs/common';
+import { Response as ResponseType } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { TokensDto } from '../dto/token/tokens.dto';
+import { Cookie } from '../decorator/cookie.decorator';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -11,10 +13,11 @@ export class AuthController {
   @ApiOperation({ summary: 'Resource allows user to refresh token.' })
   @ApiResponse({ status: 200, type: TokensDto })
   @Get('/refresh')
-  async refreshToken(@Request() req, @Response() res): Promise<string> {
-    const { _at, _rt } = await this.authService.refreshToken(
-      req.cookies['_rt']
-    );
+  async refreshToken(
+    @Response() res: ResponseType,
+    @Cookie('_rt') refreshToken: string
+  ): Promise<string> {
+    const { _at, _rt } = await this.authService.refreshToken(refreshToken);
 
     res.cookie('_rt', _rt, {
       httpOnly: true,
@@ -22,6 +25,6 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
-    return res.status(200).json({ _at });
+    return _at;
   }
 }

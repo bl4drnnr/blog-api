@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -14,6 +15,9 @@ import { Roles } from '../decorator/role.decorator';
 import { Post as PostModel } from '../models/post.model';
 import { RoleGuard } from '../guard/role.guard';
 import { AuthGuard } from '../guard/auth.guard';
+import { CommentPostDto } from '../dto/post/comment-post.dto';
+import { PostComment } from '../models/comment.model';
+import { User as UserDecorator } from '../decorator/user.decorator';
 
 @ApiTags('Post')
 @Controller('post')
@@ -25,7 +29,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
-  createPost(createPostDto: PostDto): Promise<PostModel> {
+  createPost(@Body() createPostDto: PostDto): Promise<PostModel> {
     return this.postService.createPost(createPostDto);
   }
 
@@ -55,5 +59,18 @@ export class PostController {
     @Param('to') to: string
   ): Promise<{ rows: PostModel[]; count: number }> {
     return this.postService.getPosts({ offset, limit, from, to });
+  }
+
+  @ApiOperation({
+    summary: 'Resource allows authorized user to comment the post.'
+  })
+  @ApiResponse({ status: 200, type: PostComment })
+  @UseGuards(AuthGuard)
+  @Post('/comment')
+  commentPost(
+    @Body() commentPostDto: CommentPostDto,
+    @UserDecorator() userId: string
+  ): Promise<PostComment> {
+    return this.postService.commentPost(commentPostDto, userId);
   }
 }

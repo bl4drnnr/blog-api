@@ -35,8 +35,8 @@ export class UserController {
   @ApiResponse({ status: 200, type: '1' })
   @UseGuards(AuthGuard)
   @Post('/logout')
-  logout(@UserDecorator() user): Promise<number> {
-    return this.userService.logout(user);
+  logout(@UserDecorator() userId: string): Promise<number> {
+    return this.userService.logout(userId);
   }
 
   @ApiOperation({
