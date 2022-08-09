@@ -17,7 +17,6 @@ import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
 import { Role } from '../models/role.model';
 import { TokensDto } from '../dto/token/tokens.dto';
-import { ForgotPasswordDto } from '../dto/user/forgot-password.dto';
 
 @Injectable()
 export class UserService {
@@ -111,9 +110,5 @@ export class UserService {
       userId: user.id,
       reason: banUserDto.reason
     });
-  }
-
-  async forgotPassword(forgotPassword: ForgotPasswordDto) {
-    //
   }
 }

@@ -11,7 +11,6 @@ import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
 import { User as UserDecorator } from '../decorator/user.decorator';
 import { TokensDto } from '../dto/token/tokens.dto';
-import { ForgotPasswordDto } from '../dto/user/forgot-password.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -59,12 +58,5 @@ export class UserController {
   @Post('/ban')
   banUser(@Body() banUserDto: BanUserDto): Promise<UserBan> {
     return this.userService.banUser(banUserDto);
-  }
-
-  @ApiOperation({ summary: 'Resource allows user to reset password.' })
-  @ApiResponse({ status: 200 })
-  @Post('/forgot-password')
-  forgotPassword(@Body() forgotPassword: ForgotPasswordDto) {
-    return this.userService.forgotPassword(forgotPassword);
   }
 }
