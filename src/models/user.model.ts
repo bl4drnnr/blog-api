@@ -16,13 +16,13 @@ import { UserRole } from './user-role.model';
 import { UserBan } from './user-ban.model';
 import { PostComment } from './comment.model';
 
-interface UserCreatingAttributes {
+interface IUserCreatingAttributes {
   email: string;
   password: string;
 }
 
 @Table
-export class User extends Model<User, UserCreatingAttributes> {
+export class User extends Model<User, IUserCreatingAttributes> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'

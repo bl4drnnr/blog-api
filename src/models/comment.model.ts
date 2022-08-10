@@ -11,14 +11,14 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from './user.model';
 import { Post } from './post.model';
 
-interface PostCommentAttributes {
+interface IPostCommentAttributes {
   comment: string;
   userId: string;
   postId: string;
 }
 
 @Table
-export class PostComment extends Model<PostComment, PostCommentAttributes> {
+export class PostComment extends Model<PostComment, IPostCommentAttributes> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'

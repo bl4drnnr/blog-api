@@ -11,13 +11,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from './user.model';
 import { UserRole } from './user-role.model';
 
-interface RoleAttributes {
+interface IRoleAttributes {
   value: string;
   description: string;
 }
 
 @Table
-export class Role extends Model<Role, RoleAttributes> {
+export class Role extends Model<Role, IRoleAttributes> {
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'
