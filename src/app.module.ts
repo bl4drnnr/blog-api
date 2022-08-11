@@ -27,7 +27,8 @@ import { PostComment } from './models/comment.model';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       models: [Post, User, Session, Role, UserRole, UserBan, PostComment],
-      autoLoadModels: true
+      autoLoadModels: true,
+      logging: false
     }),
     UserModule,
     AuthModule,

@@ -15,13 +15,14 @@ import { Role } from './role.model';
 import { UserRole } from './user-role.model';
 import { UserBan } from './user-ban.model';
 import { PostComment } from './comment.model';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 interface IUserCreatingAttributes {
   email: string;
   password: string;
 }
 
+@Exclude()
 @Table
 export class User extends Model<User, IUserCreatingAttributes> {
   @ApiProperty({
@@ -31,6 +32,7 @@ export class User extends Model<User, IUserCreatingAttributes> {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column({ type: DataType.UUID })
+  @Expose()
   id: string;
 
   @ApiProperty({
@@ -38,6 +40,7 @@ export class User extends Model<User, IUserCreatingAttributes> {
     description: 'Email of user'
   })
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @Expose()
   email: string;
 
   @ApiProperty({
@@ -45,7 +48,6 @@ export class User extends Model<User, IUserCreatingAttributes> {
     description: 'Password of user'
   })
   @Column({ type: DataType.STRING, allowNull: false })
-  @Exclude({ toPlainOnly: true })
   password: string;
 
   @ApiProperty({
@@ -53,6 +55,7 @@ export class User extends Model<User, IUserCreatingAttributes> {
     description: 'Username of user'
   })
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @Expose()
   username: string;
 
   @ApiProperty({
@@ -60,6 +63,7 @@ export class User extends Model<User, IUserCreatingAttributes> {
     description: 'First name (optional)'
   })
   @Column({ type: DataType.STRING, allowNull: true })
+  @Expose()
   firstName: string;
 
   @ApiProperty({
@@ -67,6 +71,7 @@ export class User extends Model<User, IUserCreatingAttributes> {
     description: 'Last name of user (optional)'
   })
   @Column({ type: DataType.STRING, allowNull: true })
+  @Expose()
   lastName: string;
 
   @HasOne(() => Session)
