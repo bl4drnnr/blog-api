@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from '../../models/role.model';
+import { Role } from '../../../models/role.model';
 import { IsUUID } from 'class-validator';
 
 export class AccessTokenDto {

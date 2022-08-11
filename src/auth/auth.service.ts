@@ -8,11 +8,11 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Session } from '../models/session.model';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '../shared/config.service';
-import { AccessTokenDto } from '../dto/token/access-token.dto';
-import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
+import { AccessTokenDto } from '../dto/request/token/access-token.dto';
+import { RefreshTokenDto } from '../dto/request/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
 import * as uuid from 'uuid';
-import { TokensDto } from '../dto/token/tokens.dto';
+import { TokensDto } from '../dto/request/token/tokens.dto';
 
 @Injectable()
 export class AuthService {

@@ -15,6 +15,7 @@ import { Role } from './role.model';
 import { UserRole } from './user-role.model';
 import { UserBan } from './user-ban.model';
 import { PostComment } from './comment.model';
+import { Exclude } from 'class-transformer';
 
 interface IUserCreatingAttributes {
   email: string;
@@ -44,6 +45,7 @@ export class User extends Model<User, IUserCreatingAttributes> {
     description: 'Password of user'
   })
   @Column({ type: DataType.STRING, allowNull: false })
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @ApiProperty({

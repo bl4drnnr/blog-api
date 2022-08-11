@@ -1,8 +1,8 @@
 import { Controller, Get, Response } from '@nestjs/common';
-import { Response as ResponseType } from 'express';
+import { Response as ExpressResponse } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { TokensDto } from '../dto/token/tokens.dto';
+import { TokensDto } from '../dto/request/token/tokens.dto';
 import { Cookie } from '../decorator/cookie.decorator';
 
 @ApiTags('Auth')
@@ -14,7 +14,7 @@ export class AuthController {
   @ApiResponse({ status: 200, type: TokensDto })
   @Get('/refresh')
   async refreshToken(
-    @Response() res: ResponseType,
+    @Response() res: ExpressResponse,
     @Cookie('_rt') refreshToken: string
   ): Promise<string> {
     const { _at, _rt } = await this.authService.refreshToken(refreshToken);
