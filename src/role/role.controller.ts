@@ -1,9 +1,9 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RoleService } from './role.service';
-import { RoleDto } from '../dto/request/role/role.dto';
+import { RoleDto } from '../dto/role/role.dto';
 import { Role } from '../models/role.model';
-import { DistributeRoleDto } from '../dto/request/role/distribute-role.dto';
+import { DistributeRoleDto } from '../dto/role/distribute-role.dto';
 import { RoleGuard } from '../guard/role.guard';
 import { AuthGuard } from '../guard/auth.guard';
 import { Roles } from '../decorator/role.decorator';

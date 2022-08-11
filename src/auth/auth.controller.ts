@@ -2,7 +2,7 @@ import { Controller, Get, Response } from '@nestjs/common';
 import { Response as ExpressResponse } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { TokensDto } from '../dto/request/token/tokens.dto';
+import { TokensDto } from '../dto/token/tokens.dto';
 import { Cookie } from '../decorator/cookie.decorator';
 
 @ApiTags('Auth')
