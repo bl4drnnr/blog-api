@@ -73,7 +73,15 @@ export class UserService {
       ...signUpUserDto,
       password: hashedPassword
     });
-    const role = await this.roleService.getRole({ value: 'USER' });
+    let role = await this.roleService.getRole({ value: 'USER' });
+
+    /** Instead of seeder */
+    if (!role) {
+      role = await this.roleService.createRole({
+        value: 'USER',
+        description: 'Common user'
+      });
+    }
 
     await user.$set('roles', [role.id]);
     user.roles = [role];
