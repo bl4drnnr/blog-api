@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Response
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignUpUserDto } from '../dto/user/sign-up-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -11,6 +18,8 @@ import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
 import { User as UserDecorator } from '../decorator/user.decorator';
 import { TokensDto } from '../dto/token/tokens.dto';
+import { Response as Res } from 'express';
+import * as dayjs from 'dayjs';
 
 @ApiTags('User')
 @Controller('user')
@@ -20,8 +29,15 @@ export class UserController {
   @ApiOperation({ summary: 'Resource for sign in user.' })
   @ApiResponse({ status: 200, type: TokensDto })
   @Post('/sign-in')
-  signIn(@Body() signInUserDto: SignInUserDto): Promise<TokensDto> {
-    return this.userService.signIn(signInUserDto);
+  async signIn(@Body() signInUserDto: SignInUserDto, @Response() res: Res) {
+    const { _at, _rt } = await this.userService.signIn(signInUserDto);
+
+    res.cookie('_rt', _rt, {
+      httpOnly: true,
+      expires: dayjs().add(7, 'days').toDate()
+    });
+
+    return res.send(_at);
   }
 
   @ApiOperation({ summary: 'Resource for sign up user.' })
