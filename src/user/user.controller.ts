@@ -24,7 +24,7 @@ export class UserController {
   async signIn(
     @Body() signInUserDto: SignInUserDto,
     @Res({ passthrough: true }) res: FastifyReply
-  ) {
+  ): Promise<string> {
     const { _at, _rt } = await this.userService.signIn(signInUserDto);
 
     res.setCookie('_rt', _rt);
