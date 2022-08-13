@@ -43,7 +43,11 @@ export class UserController {
   @ApiResponse({ status: 200, type: '1' })
   @UseGuards(AuthGuard)
   @Post('/logout')
-  logout(@UserDecorator() userId: string): Promise<number> {
+  logout(
+    @UserDecorator() userId: string,
+    @Res({ passthrough: true }) res: FastifyReply
+  ): Promise<number> {
+    res.clearCookie('_rt');
     return this.userService.logout(userId);
   }
 
