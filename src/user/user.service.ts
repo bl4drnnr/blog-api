@@ -79,19 +79,6 @@ export class UserService {
       password: hashedPassword
     });
 
-    /** Instead of seeder */
-    const allRoles = await this.roleService.listRoles();
-    if (allRoles.length !== 2) {
-      await this.roleService.createRole({
-        value: 'USER',
-        description: 'Common user'
-      });
-      await this.roleService.createRole({
-        value: 'ADMIN',
-        description: 'Administrator'
-      });
-    }
-
     let role: Role;
 
     if (signUpUserDto.email === this.configService.administratorEmail)
