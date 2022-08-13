@@ -29,6 +29,10 @@ export class RoleService {
     });
   }
 
+  async listRoles(): Promise<Role[]> {
+    return await this.roleRepository.findAll();
+  }
+
   async distributeRole(
     distributeRoleDto: DistributeRoleDto
   ): Promise<DistributeRoleDto> {

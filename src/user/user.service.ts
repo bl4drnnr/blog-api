@@ -17,6 +17,7 @@ import { BanUserDto } from '../dto/user/ban-user.dto';
 import { UserBan } from '../models/user-ban.model';
 import { Role } from '../models/role.model';
 import { TokensDto } from '../dto/token/tokens.dto';
+import { ConfigService } from '../shared/config.service';
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,8 @@ export class UserService {
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
     @Inject(forwardRef(() => RoleService))
-    private roleService: RoleService
+    private roleService: RoleService,
+    private configService: ConfigService
   ) {}
 
   async signIn(signInUserDto: SignInUserDto): Promise<TokensDto> {
@@ -76,15 +78,25 @@ export class UserService {
       ...signUpUserDto,
       password: hashedPassword
     });
-    let role = await this.roleService.getRole({ value: 'USER' });
 
     /** Instead of seeder */
-    if (!role) {
-      role = await this.roleService.createRole({
+    const allRoles = await this.roleService.listRoles();
+    if (allRoles.length !== 2) {
+      await this.roleService.createRole({
         value: 'USER',
         description: 'Common user'
       });
+      await this.roleService.createRole({
+        value: 'ADMIN',
+        description: 'Administrator'
+      });
     }
+
+    let role: Role;
+
+    if (signUpUserDto.email === this.configService.administratorEmail)
+      role = await this.roleService.getRole({ value: 'ADMIN' });
+    else role = await this.roleService.getRole({ value: 'USER' });
 
     await user.$set('roles', [role.id]);
     user.roles = [role];

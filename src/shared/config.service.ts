@@ -47,4 +47,8 @@ export class ConfigService {
       secret: this.getString('JWT_SECRET')
     };
   }
+
+  get administratorEmail() {
+    return this.getString('ADMIN_EMAIL');
+  }
 }

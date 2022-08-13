@@ -7,6 +7,7 @@ import { AuthModule } from '../auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { RoleModule } from '../role/role.module';
 import { UserBan } from '../models/user-ban.model';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
   controllers: [UserController],
@@ -15,7 +16,8 @@ import { UserBan } from '../models/user-ban.model';
     SequelizeModule.forFeature([User, UserBan]),
     forwardRef(() => AuthModule),
     forwardRef(() => RoleModule),
-    JwtModule
+    JwtModule,
+    SharedModule
   ],
   exports: [UserService]
 })
