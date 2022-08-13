@@ -40,13 +40,16 @@ export class UserService {
         }
       ]
     });
+    if (!user)
+      throw new HttpException('Wrong-credentials', HttpStatus.BAD_REQUEST);
+
     const passwordEquality = await bcrypt.compare(
       signInUserDto.password,
       user.password
     );
 
-    if (!user || !passwordEquality)
-      throw new HttpException('wrong-credentials', HttpStatus.BAD_REQUEST);
+    if (!passwordEquality)
+      throw new HttpException('Wrong-credentials', HttpStatus.BAD_REQUEST);
 
     return await this.authService.updateTokens({
       userId: user.id,
@@ -66,7 +69,7 @@ export class UserService {
     });
 
     if (sameEmailUsernameUser)
-      throw new HttpException('user-already-exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('User-already-exists', HttpStatus.BAD_REQUEST);
 
     const hashedPassword = await bcrypt.hash(signUpUserDto.password, 5);
     const user = await this.userRepository.create({

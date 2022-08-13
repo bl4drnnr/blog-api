@@ -43,6 +43,6 @@ export class RoleService {
       await user.$add('role', role.id);
       return distributeRoleDto;
     }
-    throw new HttpException('no-role-or-user', HttpStatus.NOT_FOUND);
+    throw new HttpException('No-role-or-user', HttpStatus.NOT_FOUND);
   }
 }

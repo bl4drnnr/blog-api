@@ -37,7 +37,7 @@ export class RoleGuard implements CanActivate {
       const token = authHeader.split(' ')[1];
 
       if (bearer !== 'Bearer' || !token)
-        throw new HttpException('forbidden', HttpStatus.FORBIDDEN);
+        throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 
       const user = this.jwtService.verify(token, {
         secret: this.configService.jwtAuthConfig.secret
@@ -46,7 +46,7 @@ export class RoleGuard implements CanActivate {
       req.user = user;
       return user.roles.some((role) => requiredRoles.includes(role.value));
     } catch (e) {
-      throw new HttpException('forbidden', HttpStatus.FORBIDDEN);
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
   }
 }
