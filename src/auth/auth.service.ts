@@ -12,18 +12,9 @@ import { AccessTokenDto } from '../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
 import { TokensDto } from '../dto/token/tokens.dto';
+import { TokenError, TokenPayload } from '../interface/token-payload.interface';
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
-
-interface A {
-  id: string;
-  type: string;
-  userId: string;
-}
-
-interface B {
-  message: string;
-}
 
 @Injectable()
 export class AuthService {
@@ -55,9 +46,9 @@ export class AuthService {
     if (!tokenRefresh)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
-    const payload: any = this.verifyToken(tokenRefresh);
+    const payload: TokenPayload | TokenError = this.verifyToken(tokenRefresh);
 
-    if (!payload.type)
+    if (!('type' in payload))
       throw new UnauthorizedException({ message: 'unauthorized' });
 
     const token = await this.getTokenById(payload.id);
@@ -77,10 +68,9 @@ export class AuthService {
     return await this.sessionRepository.destroy({ where: { userId } });
   }
 
-  verifyToken<
-    T extends { id: string; type: string; userId: string },
-    R extends { message: string }
-  >(token: string): T | R {
+  verifyToken<T extends TokenPayload, R extends TokenError>(
+    token: string
+  ): T | R {
     try {
       return this.jwtService.verify(token, {
         secret: this.configService.jwtAuthConfig.secret

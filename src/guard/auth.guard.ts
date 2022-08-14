@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
+import { TokenError, TokenPayload } from '../interface/token-payload.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,9 +26,10 @@ export class AuthGuard implements CanActivate {
     if (bearer !== 'Bearer' || !token)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
-    const payload = this.authService.verifyToken(token);
+    const payload: TokenPayload | TokenError =
+      this.authService.verifyToken(token);
 
-    if (payload.type !== 'access')
+    if (!('type' in payload))
       throw new UnauthorizedException({ message: 'unauthorized' });
 
     req.user = payload.userId;
