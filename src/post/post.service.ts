@@ -39,8 +39,10 @@ export class PostService {
     return await this.postRepository.findAndCountAll({
       where: { createdAt: { [Op.between]: [from, to] } },
       order: [['createdAt', 'DESC']],
+      attributes: ['title', 'slug'],
       limit,
-      offset
+      offset,
+      raw: true
     });
   }
 
