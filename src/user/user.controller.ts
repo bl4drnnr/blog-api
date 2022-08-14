@@ -27,7 +27,7 @@ export class UserController {
   ): Promise<string> {
     const { _at, _rt } = await this.userService.signIn(signInUserDto);
 
-    res.setCookie('_rt', _rt);
+    res.cookie('_rt', _rt);
 
     return res.send(_at);
   }
