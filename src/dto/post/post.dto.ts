@@ -15,4 +15,11 @@ export class PostDto {
   })
   @IsNotEmpty()
   readonly content: string;
+
+  @ApiProperty({
+    example: 'Here we go about TypeScript',
+    description: 'Short content preview of the post'
+  })
+  @IsNotEmpty()
+  readonly description: string;
 }

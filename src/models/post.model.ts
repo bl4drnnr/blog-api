@@ -41,6 +41,13 @@ export class Post extends Model<Post, IPostCreatingAttributes> {
   slug: string;
 
   @ApiProperty({
+    example: 'Here we go about TypeScript',
+    description: 'Short content preview of the post'
+  })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  description: string;
+
+  @ApiProperty({
     example: 'Here where content goes...',
     description: 'Content of the post'
   })
