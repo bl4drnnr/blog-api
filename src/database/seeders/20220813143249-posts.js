@@ -34,7 +34,7 @@ module.exports = {
         },
         {
           id: '69b0e62c-ecea-4adf-9b95-f75960dc8f16',
-          title: 'Lorem-ipsum-dolor-sit-amet-consectetur-adipiscing',
+          title: 'Lorem ipsum dolor sit amet consectetur adipiscing',
           slug: 'Lorem-ipsum-dolor-sit-amet-consectetur-adipiscing',
           content: 'Here is some cool content about lorem',
           description: 'Here is some cool description about lorem',

@@ -18,7 +18,7 @@ export class PostService {
   }
 
   async getPostBySlug(slug: string): Promise<Post> {
-    return await this.postRepository.findOne({ where: { slug } });
+    return await this.postRepository.findOne({ where: { slug }, raw: true });
   }
 
   async deletePost(id: string): Promise<number> {
