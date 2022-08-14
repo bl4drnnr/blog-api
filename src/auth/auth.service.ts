@@ -11,8 +11,19 @@ import { ConfigService } from '../shared/config.service';
 import { AccessTokenDto } from '../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
-import * as uuid from 'uuid';
 import { TokensDto } from '../dto/token/tokens.dto';
+import * as uuid from 'uuid';
+import * as jwt from 'jsonwebtoken';
+
+interface A {
+  id: string;
+  type: string;
+  userId: string;
+}
+
+interface B {
+  message: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -44,9 +55,9 @@ export class AuthService {
     if (!tokenRefresh)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
-    const payload = this.verifyToken(tokenRefresh);
+    const payload: any = this.verifyToken(tokenRefresh);
 
-    if (payload.type !== 'refresh')
+    if (!payload.type)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
     const token = await this.getTokenById(payload.id);
@@ -66,12 +77,20 @@ export class AuthService {
     return await this.sessionRepository.destroy({ where: { userId } });
   }
 
-  verifyToken<T extends { id: string; type: string; userId: string }>(
-    token: string
-  ): T {
-    return this.jwtService.verify(token, {
-      secret: this.configService.jwtAuthConfig.secret
-    });
+  verifyToken<
+    T extends { id: string; type: string; userId: string },
+    R extends { message: string }
+  >(token: string): T | R {
+    try {
+      return this.jwtService.verify(token, {
+        secret: this.configService.jwtAuthConfig.secret
+      });
+    } catch (e: any) {
+      if (e instanceof jwt.TokenExpiredError)
+        return <R>{ message: 'token-expired' };
+      else if (e instanceof jwt.JsonWebTokenError)
+        return <R>{ message: 'invalid-token' };
+    }
   }
 
   private generateAccessToken(accessTokenDto: AccessTokenDto): string {
