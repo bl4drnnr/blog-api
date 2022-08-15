@@ -45,7 +45,9 @@ export class PostController {
   @ApiOperation({ summary: 'Resource allows everyone to get post.' })
   @ApiResponse({ status: 200, type: PostModel })
   @Get(':slug')
-  getPostBySlug(@Param('slug') slug: string): Promise<PostModel> {
+  getPostBySlug(
+    @Param('slug') slug: string
+  ): Promise<{ post: PostModel; postComments: PostComment[] }> {
     return this.postService.getPostBySlug(slug);
   }
 
