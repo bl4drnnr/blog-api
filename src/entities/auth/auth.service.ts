@@ -12,7 +12,10 @@ import { AccessTokenDto } from '../../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
 import { TokensDto } from '../../dto/token/tokens.dto';
-import { TokenError, TokenPayload } from '../../interface/token-payload.interface';
+import {
+  TokenError,
+  TokenPayload
+} from '../../interface/token-payload.interface';
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
 

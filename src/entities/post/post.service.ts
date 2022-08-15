@@ -18,7 +18,11 @@ export class PostService {
   }
 
   async getPostBySlug(slug: string): Promise<Post> {
-    return await this.postRepository.findOne({ where: { slug }, raw: true });
+    return await this.postRepository.findOne({
+      where: { slug },
+      include: PostComment,
+      raw: true
+    });
   }
 
   async deletePost(id: string): Promise<number> {

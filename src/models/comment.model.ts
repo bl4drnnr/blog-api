@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   Default,
@@ -36,6 +37,9 @@ export class PostComment extends Model<PostComment, IPostCommentAttributes> {
   @Column({ type: DataType.UUID })
   userId: string;
 
+  @BelongsTo(() => User)
+  user: User;
+
   @ApiProperty({
     example: '123e4567-e89b-12d3-a456-426614174000',
     description: 'Unique uuid of record'
@@ -43,6 +47,9 @@ export class PostComment extends Model<PostComment, IPostCommentAttributes> {
   @ForeignKey(() => Post)
   @Column({ type: DataType.UUID })
   postId: string;
+
+  @BelongsTo(() => Post)
+  post: Post;
 
   @ApiProperty({
     example: 'This post sucks!',
