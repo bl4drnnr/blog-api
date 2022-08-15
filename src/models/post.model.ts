@@ -2,13 +2,11 @@ import {
   Column,
   DataType,
   Default,
-  HasMany,
   Model,
   PrimaryKey,
   Table
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { PostComment } from './comment.model';
 
 interface IPostCreatingAttributes {
   title: string;
@@ -53,7 +51,4 @@ export class Post extends Model<Post, IPostCreatingAttributes> {
   })
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   content: string;
-
-  @HasMany(() => PostComment)
-  comments: PostComment[];
 }

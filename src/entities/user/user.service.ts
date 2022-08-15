@@ -14,7 +14,7 @@ import * as bcrypt from 'bcryptjs';
 import { AuthService } from '../auth/auth.service';
 import { RoleService } from '../role/role.service';
 import { BanUserDto } from '../../dto/user/ban-user.dto';
-import { UserBan } from '../../models/user-ban.model';
+import { Ban } from '../../models/ban.model';
 import { Role } from '../../models/role.model';
 import { TokensDto } from '../../dto/token/tokens.dto';
 import { ConfigService } from '../../shared/config.service';
@@ -23,7 +23,7 @@ import { ConfigService } from '../../shared/config.service';
 export class UserService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
-    @InjectModel(UserBan) private userBanRepository: typeof UserBan,
+    @InjectModel(Ban) private BanRepository: typeof Ban,
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
     @Inject(forwardRef(() => RoleService))
@@ -121,11 +121,11 @@ export class UserService {
     });
   }
 
-  async banUser(banUserDto: BanUserDto): Promise<UserBan> {
+  async banUser(banUserDto: BanUserDto): Promise<Ban> {
     const user = await this.userRepository.findOne({
       where: { email: banUserDto.email }
     });
-    return await this.userBanRepository.create({
+    return await this.BanRepository.create({
       userId: user.id,
       reason: banUserDto.reason
     });

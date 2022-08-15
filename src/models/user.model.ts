@@ -13,7 +13,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Session } from './session.model';
 import { Role } from './role.model';
 import { UserRole } from './user-role.model';
-import { UserBan } from './user-ban.model';
+import { Ban } from './ban.model';
 import { PostComment } from './comment.model';
 import { Exclude, Expose } from 'class-transformer';
 
@@ -77,8 +77,8 @@ export class User extends Model<User, IUserCreatingAttributes> {
   @HasOne(() => Session)
   session: Session;
 
-  @HasOne(() => UserBan)
-  ban: UserBan;
+  @HasOne(() => Ban)
+  ban: Ban;
 
   @HasMany(() => PostComment)
   comments: PostComment[];

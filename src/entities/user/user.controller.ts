@@ -17,7 +17,7 @@ import { RoleGuard } from '../../guard/role.guard';
 import { AuthGuard } from '../../guard/auth.guard';
 import { User } from '../../models/user.model';
 import { BanUserDto } from '../../dto/user/ban-user.dto';
-import { UserBan } from '../../models/user-ban.model';
+import { Ban } from '../../models/ban.model';
 import { User as UserDecorator } from '../../decorator/user.decorator';
 import { TokensDto } from '../../dto/token/tokens.dto';
 import { FastifyReply } from 'fastify';
@@ -76,11 +76,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Resource allows user with ADMIN role ban user.' })
-  @ApiResponse({ status: 200, type: UserBan })
+  @ApiResponse({ status: 200, type: Ban })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/ban')
-  banUser(@Body() banUserDto: BanUserDto): Promise<UserBan> {
+  banUser(@Body() banUserDto: BanUserDto): Promise<Ban> {
     return this.userService.banUser(banUserDto);
   }
 }

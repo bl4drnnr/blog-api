@@ -11,7 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { RoleModule } from './entities/role/role.module';
 import { Role } from './models/role.model';
 import { UserRole } from './models/user-role.model';
-import { UserBan } from './models/user-ban.model';
+import { Ban } from './models/ban.model';
 import { PostComment } from './models/comment.model';
 
 @Module({
@@ -26,7 +26,7 @@ import { PostComment } from './models/comment.model';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [Post, User, Session, Role, UserRole, UserBan, PostComment],
+      models: [Post, User, Session, Role, UserRole, Ban, PostComment],
       autoLoadModels: true,
       logging: false
     }),
