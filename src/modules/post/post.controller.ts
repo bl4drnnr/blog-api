@@ -18,6 +18,8 @@ import { AuthGuard } from '../../guard/auth.guard';
 import { CommentPostDto } from '../../dto/post/comment-post.dto';
 import { PostComment } from '../../models/comment.model';
 import { User as UserDecorator } from '../../decorator/user.decorator';
+import { IFullPost } from '../../interface/full-post.interface';
+import { IPostPreview } from '../../interface/post-preview.interface';
 
 @ApiTags('Post')
 @Controller('post')
@@ -29,7 +31,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
-  createPost(@Body() createPostDto: PostDto): Promise<PostModel> {
+  createPost(@Body() createPostDto: PostDto): Promise<PostDto> {
     return this.postService.createPost(createPostDto);
   }
 
@@ -45,9 +47,7 @@ export class PostController {
   @ApiOperation({ summary: 'Resource allows everyone to get post.' })
   @ApiResponse({ status: 200, type: PostModel })
   @Get(':slug')
-  getPostBySlug(
-    @Param('slug') slug: string
-  ): Promise<{ post: PostModel; postComments: PostComment[] }> {
+  getPostBySlug(@Param('slug') slug: string): Promise<IFullPost> {
     return this.postService.getPostBySlug(slug);
   }
 
@@ -59,7 +59,7 @@ export class PostController {
     @Param('limit', ParseIntPipe) limit: number,
     @Param('from') from: string,
     @Param('to') to: string
-  ): Promise<{ rows: PostModel[]; count: number }> {
+  ): Promise<IPostPreview> {
     return this.postService.getPosts({ offset, limit, from, to });
   }
 
@@ -72,7 +72,7 @@ export class PostController {
   commentPost(
     @Body() commentPostDto: CommentPostDto,
     @UserDecorator() userId: string
-  ): Promise<PostComment> {
+  ): Promise<CommentPostDto> {
     return this.postService.commentPost(commentPostDto, userId);
   }
 }

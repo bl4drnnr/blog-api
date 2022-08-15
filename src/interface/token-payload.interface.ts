@@ -1,9 +1,9 @@
-export interface TokenPayload {
+export interface ITokenPayload {
   id: string;
   type: string;
   userId: string;
 }
 
-export interface TokenError {
+export interface ITokenError {
   message: string;
 }

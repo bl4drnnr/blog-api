@@ -13,8 +13,8 @@ import { RefreshTokenDto } from '../../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
 import { TokensDto } from '../../dto/token/tokens.dto';
 import {
-  TokenError,
-  TokenPayload
+  ITokenError,
+  ITokenPayload
 } from '../../interface/token-payload.interface';
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
@@ -49,7 +49,7 @@ export class AuthService {
     if (!tokenRefresh)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
-    const payload: TokenPayload | TokenError = this.verifyToken(tokenRefresh);
+    const payload: ITokenPayload | ITokenError = this.verifyToken(tokenRefresh);
 
     if (!('type' in payload))
       throw new UnauthorizedException({ message: 'unauthorized' });
@@ -71,7 +71,7 @@ export class AuthService {
     return await this.sessionRepository.destroy({ where: { userId } });
   }
 
-  verifyToken<T extends TokenPayload, R extends TokenError>(
+  verifyToken<T extends ITokenPayload, R extends ITokenError>(
     token: string
   ): T | R {
     try {
