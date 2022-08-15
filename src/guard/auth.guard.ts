@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException
 } from '@nestjs/common';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../entities/auth/auth.service';
 import { Observable } from 'rxjs';
 import { TokenError, TokenPayload } from '../interface/token-payload.interface';
 

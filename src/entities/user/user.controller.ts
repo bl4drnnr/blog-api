@@ -1,16 +1,16 @@
 import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { SignUpUserDto } from '../dto/user/sign-up-user.dto';
+import { SignUpUserDto } from '../../dto/user/sign-up-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SignInUserDto } from '../dto/user/sign-in-user.dto';
-import { Roles } from '../decorator/role.decorator';
-import { RoleGuard } from '../guard/role.guard';
-import { AuthGuard } from '../guard/auth.guard';
-import { User } from '../models/user.model';
-import { BanUserDto } from '../dto/user/ban-user.dto';
-import { UserBan } from '../models/user-ban.model';
-import { User as UserDecorator } from '../decorator/user.decorator';
-import { TokensDto } from '../dto/token/tokens.dto';
+import { SignInUserDto } from '../../dto/user/sign-in-user.dto';
+import { Roles } from '../../decorator/role.decorator';
+import { RoleGuard } from '../../guard/role.guard';
+import { AuthGuard } from '../../guard/auth.guard';
+import { User } from '../../models/user.model';
+import { BanUserDto } from '../../dto/user/ban-user.dto';
+import { UserBan } from '../../models/user-ban.model';
+import { User as UserDecorator } from '../../decorator/user.decorator';
+import { TokensDto } from '../../dto/token/tokens.dto';
 import { FastifyReply } from 'fastify';
 
 @ApiTags('User')
