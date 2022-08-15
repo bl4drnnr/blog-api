@@ -1,9 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Session } from '../models/session.model';
+import { Session } from '../../models/session.model';
 import { JwtService } from '@nestjs/jwt';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 
