@@ -9,15 +9,15 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { PostService } from './post.service';
-import { PostDto } from '../../dto/post/post.dto';
+import { PostDto } from '../dto/post/post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Roles } from '../../decorator/role.decorator';
-import { Post as PostModel } from '../../models/post.model';
-import { RoleGuard } from '../../guard/role.guard';
-import { AuthGuard } from '../../guard/auth.guard';
-import { CommentPostDto } from '../../dto/post/comment-post.dto';
-import { PostComment } from '../../models/comment.model';
-import { User as UserDecorator } from '../../decorator/user.decorator';
+import { Roles } from '../decorator/role.decorator';
+import { Post as PostModel } from '../models/post.model';
+import { RoleGuard } from '../guard/role.guard';
+import { AuthGuard } from '../guard/auth.guard';
+import { CommentPostDto } from '../dto/post/comment-post.dto';
+import { PostComment } from '../models/comment.model';
+import { User as UserDecorator } from '../decorator/user.decorator';
 
 @ApiTags('Post')
 @Controller('post')

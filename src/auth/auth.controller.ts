@@ -1,8 +1,8 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { TokensDto } from '../../dto/token/tokens.dto';
-import { Cookie } from '../../decorator/cookie.decorator';
+import { TokensDto } from '../dto/token/tokens.dto';
+import { Cookie } from '../decorator/cookie.decorator';
 import { FastifyReply } from 'fastify';
 
 @ApiTags('Auth')

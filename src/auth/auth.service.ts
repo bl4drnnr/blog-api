@@ -5,17 +5,17 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Session } from '../../models/session.model';
+import { Session } from '../models/session.model';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '../../shared/config.service';
-import { AccessTokenDto } from '../../dto/token/access-token.dto';
-import { RefreshTokenDto } from '../../dto/token/refresh-token.dto';
+import { ConfigService } from '../shared/config.service';
+import { AccessTokenDto } from '../dto/token/access-token.dto';
+import { RefreshTokenDto } from '../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
-import { TokensDto } from '../../dto/token/tokens.dto';
+import { TokensDto } from '../dto/token/tokens.dto';
 import {
   TokenError,
   TokenPayload
-} from '../../interface/token-payload.interface';
+} from '../interface/token-payload.interface';
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
 
