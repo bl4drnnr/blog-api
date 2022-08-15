@@ -108,8 +108,17 @@ export class UserService {
     return await this.authService.deleteRefreshToken(userId);
   }
 
-  async getAllUsers(): Promise<User[]> {
-    return await this.userRepository.findAll();
+  async getAllUsers({
+    offset,
+    limit
+  }: {
+    offset: number;
+    limit: number;
+  }): Promise<User[]> {
+    return await this.userRepository.findAll({
+      offset,
+      limit
+    });
   }
 
   async banUser(banUserDto: BanUserDto): Promise<UserBan> {

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Res, UseGuards } from "@nestjs/common";
 import { UserService } from './user.service';
 import { SignUpUserDto } from '../../dto/user/sign-up-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -58,9 +58,12 @@ export class UserController {
   @ApiResponse({ status: 200, type: [User] })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
-  @Get()
-  getAllUsers(): Promise<User[]> {
-    return this.userService.getAllUsers();
+  @Get(':offset/:limit')
+  getAllUsers(
+    @Param('offset', ParseIntPipe) offset: number,
+    @Param('limit', ParseIntPipe) limit: number
+  ): Promise<User[]> {
+    return this.userService.getAllUsers({ offset, limit });
   }
 
   @ApiOperation({ summary: 'Resource allows user with ADMIN role ban user.' })
