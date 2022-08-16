@@ -17,7 +17,9 @@ import { CommentPostDto } from '../../dto/post/comment-post.dto';
 import { User } from '../../decorator/user.decorator';
 import { PostComment } from '../../models/comment.model';
 import { Post as PostModel } from '../../models/post.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Post')
 @Controller('post')
 export class PostController {
   constructor(private postService: PostService) {}

@@ -6,7 +6,9 @@ import { DistributeRoleDto } from '../../dto/role/distribute-role.dto';
 import { RoleGuard } from '../../guard/role.guard';
 import { AuthGuard } from '../../guard/auth.guard';
 import { Roles } from '../../decorator/role.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Role')
 @Controller('role')
 export class RoleController {
   constructor(private roleService: RoleService) {}

@@ -2,7 +2,9 @@ import { Controller, Get, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Cookie } from '../../decorator/cookie.decorator';
 import { FastifyReply } from 'fastify';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

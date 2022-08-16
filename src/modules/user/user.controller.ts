@@ -19,7 +19,9 @@ import { BanUserDto } from '../../dto/user/ban-user.dto';
 import { Ban } from '../../models/ban.model';
 import { User as UserDecorator } from '../../decorator/user.decorator';
 import { FastifyReply } from 'fastify';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
