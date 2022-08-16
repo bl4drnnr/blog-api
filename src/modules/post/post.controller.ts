@@ -14,9 +14,9 @@ import { Roles } from '../../decorator/role.decorator';
 import { RoleGuard } from '../../guard/role.guard';
 import { AuthGuard } from '../../guard/auth.guard';
 import { CommentPostDto } from '../../dto/post/comment-post.dto';
-import { User as UserDecorator } from '../../decorator/user.decorator';
-import { IFullPost } from '../../interface/full-post.interface';
-import { IPostPreview } from '../../interface/post-preview.interface';
+import { User } from '../../decorator/user.decorator';
+import { PostComment } from '../../models/comment.model';
+import { Post as PostModel } from '../../models/post.model';
 
 @Controller('post')
 export class PostController {
@@ -25,7 +25,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
-  createPost(@Body() createPostDto: PostDto): Promise<PostDto> {
+  createPost(@Body() createPostDto: PostDto): Promise<PostModel> {
     return this.postService.createPost(createPostDto);
   }
 
@@ -37,7 +37,9 @@ export class PostController {
   }
 
   @Get(':slug')
-  getPostBySlug(@Param('slug') slug: string): Promise<IFullPost> {
+  getPostBySlug(
+    @Param('slug') slug: string
+  ): Promise<{ post: PostModel; postComments: PostComment[] }> {
     return this.postService.getPostBySlug(slug);
   }
 
@@ -47,7 +49,7 @@ export class PostController {
     @Param('limit', ParseIntPipe) limit: number,
     @Param('from') from: string,
     @Param('to') to: string
-  ): Promise<IPostPreview> {
+  ): Promise<{ rows: PostModel[]; count: number }> {
     return this.postService.getPosts({ offset, limit, from, to });
   }
 
@@ -55,7 +57,7 @@ export class PostController {
   @Post('/comment')
   commentPost(
     @Body() commentPostDto: CommentPostDto,
-    @UserDecorator() userId: string
+    @User() userId: string
   ): Promise<CommentPostDto> {
     return this.postService.commentPost(commentPostDto, userId);
   }

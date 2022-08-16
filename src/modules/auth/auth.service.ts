@@ -12,12 +12,18 @@ import { AccessTokenDto } from '../../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
 import { TokensDto } from '../../dto/token/tokens.dto';
-import {
-  ITokenError,
-  ITokenPayload
-} from '../../interface/token-payload.interface';
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
+
+interface ITokenPayload {
+  id: string;
+  type: string;
+  userId: string;
+}
+
+interface ITokenError {
+  message: string;
+}
 
 @Injectable()
 export class AuthService {

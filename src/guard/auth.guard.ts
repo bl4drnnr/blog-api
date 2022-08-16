@@ -6,10 +6,16 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../modules/auth/auth.service';
 import { Observable } from 'rxjs';
-import {
-  ITokenError,
-  ITokenPayload
-} from '../interface/token-payload.interface';
+
+interface ITokenPayload {
+  id: string;
+  type: string;
+  userId: string;
+}
+
+interface ITokenError {
+  message: string;
+}
 
 @Injectable()
 export class AuthGuard implements CanActivate {

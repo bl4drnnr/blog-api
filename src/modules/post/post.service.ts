@@ -6,8 +6,6 @@ import { Op } from 'sequelize';
 import { CommentPostDto } from '../../dto/post/comment-post.dto';
 import { PostComment } from '../../models/comment.model';
 import { User } from '../../models/user.model';
-import { IFullPost } from '../../interface/full-post.interface';
-import { IPostPreview } from '../../interface/post-preview.interface';
 
 @Injectable()
 export class PostService {
@@ -20,7 +18,9 @@ export class PostService {
     return await this.postRepository.create(createPostDto);
   }
 
-  async getPostBySlug(slug: string): Promise<IFullPost> {
+  async getPostBySlug(
+    slug: string
+  ): Promise<{ post: Post; postComments: PostComment[] }> {
     const post = await this.postRepository.findOne({
       where: { slug },
       raw: true
@@ -53,7 +53,7 @@ export class PostService {
     limit: number;
     from: string;
     to: string;
-  }): Promise<IPostPreview> {
+  }): Promise<{ rows: Post[]; count: number }> {
     return await this.postRepository.findAndCountAll({
       where: { createdAt: { [Op.between]: [from, to] } },
       order: [['createdAt', 'DESC']],
