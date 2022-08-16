@@ -109,16 +109,18 @@ export class UserService {
     return await this.authService.deleteRefreshToken(userId);
   }
 
-  async getAllUsers({
+  async getUsers({
     offset,
     limit
   }: {
     offset: number;
     limit: number;
-  }): Promise<User[]> {
-    return await this.userRepository.findAll({
+  }): Promise<{ rows: User[]; count: number }> {
+    return await this.userRepository.findAndCountAll({
+      order: [['createdAt', 'DESC']],
       offset,
-      limit
+      limit,
+      raw: true
     });
   }
 

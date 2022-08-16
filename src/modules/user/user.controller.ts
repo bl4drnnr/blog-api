@@ -67,8 +67,8 @@ export class UserController {
   getAllUsers(
     @Param('offset', ParseIntPipe) offset: number,
     @Param('limit', ParseIntPipe) limit: number
-  ): Promise<User[]> {
-    return this.userService.getAllUsers({ offset, limit });
+  ): Promise<{ rows: User[]; count: number }> {
+    return this.userService.getUsers({ offset, limit });
   }
 
   @ApiOperation({ summary: 'Resource for ban users (ADMIN only)' })
