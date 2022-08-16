@@ -10,24 +10,18 @@ import {
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { PostDto } from '../../dto/post/post.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../../decorator/role.decorator';
-import { Post as PostModel } from '../../models/post.model';
 import { RoleGuard } from '../../guard/role.guard';
 import { AuthGuard } from '../../guard/auth.guard';
 import { CommentPostDto } from '../../dto/post/comment-post.dto';
-import { PostComment } from '../../models/comment.model';
 import { User as UserDecorator } from '../../decorator/user.decorator';
 import { IFullPost } from '../../interface/full-post.interface';
 import { IPostPreview } from '../../interface/post-preview.interface';
 
-@ApiTags('Post')
 @Controller('post')
 export class PostController {
   constructor(private postService: PostService) {}
 
-  @ApiOperation({ summary: 'Resource allows administrator to create posts.' })
-  @ApiResponse({ status: 200, type: PostModel })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
@@ -35,8 +29,6 @@ export class PostController {
     return this.postService.createPost(createPostDto);
   }
 
-  @ApiOperation({ summary: 'Resource allows administrator to delete posts.' })
-  @ApiResponse({ status: 200, type: PostModel })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Delete(':id')
@@ -44,15 +36,11 @@ export class PostController {
     return this.postService.deletePost(id);
   }
 
-  @ApiOperation({ summary: 'Resource allows everyone to get post.' })
-  @ApiResponse({ status: 200, type: PostModel })
   @Get(':slug')
   getPostBySlug(@Param('slug') slug: string): Promise<IFullPost> {
     return this.postService.getPostBySlug(slug);
   }
 
-  @ApiOperation({ summary: 'Resource allows to get posts.' })
-  @ApiResponse({ status: 200, type: [PostModel] })
   @Get(':offset/:limit/:from/:to')
   getPosts(
     @Param('offset', ParseIntPipe) offset: number,
@@ -63,10 +51,6 @@ export class PostController {
     return this.postService.getPosts({ offset, limit, from, to });
   }
 
-  @ApiOperation({
-    summary: 'Resource allows authorized user to comment the post.'
-  })
-  @ApiResponse({ status: 200, type: PostComment })
   @UseGuards(AuthGuard)
   @Post('/comment')
   commentPost(

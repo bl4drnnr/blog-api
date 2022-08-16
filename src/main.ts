@@ -24,8 +24,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-    .setTitle('Advances Nest.js REST API')
-    .setDescription('REST API documentation')
+    .setTitle('Blog Nest.js REST API')
+    .setDescription('Documentation of resources o blog Nest.js REST API')
     .setVersion('0.0.1')
     .build();
   const document = SwaggerModule.createDocument(app, config);
