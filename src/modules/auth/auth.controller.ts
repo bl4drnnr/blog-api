@@ -2,13 +2,15 @@ import { Controller, Get, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Cookie } from '../../decorator/cookie.decorator';
 import { FastifyReply } from 'fastify';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Resource for refreshing token' })
+  @ApiResponse({ status: 200, type: String })
   @Get('/refresh')
   async refreshToken(
     @Res({ passthrough: true }) res: FastifyReply,

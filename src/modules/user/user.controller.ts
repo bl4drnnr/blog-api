@@ -19,13 +19,15 @@ import { BanUserDto } from '../../dto/user/ban-user.dto';
 import { Ban } from '../../models/ban.model';
 import { User as UserDecorator } from '../../decorator/user.decorator';
 import { FastifyReply } from 'fastify';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @ApiOperation({ summary: 'Resource for signing user in system' })
+  @ApiResponse({ status: 201, type: String })
   @Post('/sign-in')
   async signIn(
     @Body() signInUserDto: SignInUserDto,
@@ -38,11 +40,15 @@ export class UserController {
     return res.send(_at);
   }
 
+  @ApiOperation({ summary: 'Resource for signing user up system' })
+  @ApiResponse({ status: 201, type: User })
   @Post('/sign-up')
   signUp(@Body() signUpUserDto: SignUpUserDto): Promise<User> {
     return this.userService.signUp(signUpUserDto);
   }
 
+  @ApiOperation({ summary: 'Resource for log user out of the system' })
+  @ApiResponse({ status: 201, type: Number })
   @UseGuards(AuthGuard)
   @Post('/logout')
   logout(
@@ -53,6 +59,8 @@ export class UserController {
     return this.userService.logout(userId);
   }
 
+  @ApiOperation({ summary: 'Resource for getting users (ADMIN only)' })
+  @ApiResponse({ status: 200, type: [User] })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Get(':offset/:limit')
@@ -63,6 +71,8 @@ export class UserController {
     return this.userService.getAllUsers({ offset, limit });
   }
 
+  @ApiOperation({ summary: 'Resource for ban users (ADMIN only)' })
+  @ApiResponse({ status: 201, type: Ban })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/ban')
