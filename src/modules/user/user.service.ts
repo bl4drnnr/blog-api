@@ -16,7 +16,6 @@ import { RoleService } from '../role/role.service';
 import { BanUserDto } from '../../dto/user/ban-user.dto';
 import { Ban } from '../../models/ban.model';
 import { Role } from '../../models/role.model';
-import { TokensDto } from '../../dto/token/tokens.dto';
 import { ConfigService } from '../../shared/config.service';
 
 @Injectable()
@@ -31,7 +30,9 @@ export class UserService {
     private configService: ConfigService
   ) {}
 
-  async signIn(signInUserDto: SignInUserDto): Promise<TokensDto> {
+  async signIn(
+    signInUserDto: SignInUserDto
+  ): Promise<{ _at: string; _rt: string }> {
     const user = await this.userRepository.findOne({
       where: { email: signInUserDto.email },
       include: [

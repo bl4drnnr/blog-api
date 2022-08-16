@@ -11,7 +11,6 @@ import { ConfigService } from '../../shared/config.service';
 import { AccessTokenDto } from '../../dto/token/access-token.dto';
 import { RefreshTokenDto } from '../../dto/token/refresh-token.dto';
 import { UserService } from '../user/user.service';
-import { TokensDto } from '../../dto/token/tokens.dto';
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
 
@@ -39,7 +38,9 @@ export class AuthService {
     return await this.sessionRepository.findOne({ where: { tokenId } });
   }
 
-  async updateTokens(accessTokenDto: AccessTokenDto): Promise<TokensDto> {
+  async updateTokens(
+    accessTokenDto: AccessTokenDto
+  ): Promise<{ _at: string; _rt: string }> {
     const accessToken = this.generateAccessToken(accessTokenDto);
     const refreshToken = this.generateRefreshToken();
 
@@ -51,7 +52,9 @@ export class AuthService {
     return { _at: accessToken, _rt: refreshToken.token };
   }
 
-  async refreshToken(tokenRefresh: string): Promise<TokensDto> {
+  async refreshToken(
+    tokenRefresh: string
+  ): Promise<{ _at: string; _rt: string }> {
     if (!tokenRefresh)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
