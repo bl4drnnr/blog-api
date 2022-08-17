@@ -128,6 +128,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    return await queryInterface.bulkDelete('Posts', null, {});
+    return queryInterface.bulkDelete('Posts', null, {});
   }
 };
