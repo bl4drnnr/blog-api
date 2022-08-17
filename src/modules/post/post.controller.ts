@@ -53,7 +53,7 @@ export class PostController {
 
   @ApiOperation({ summary: 'Resource for getting posts' })
   @ApiResponse({ status: 200, type: PostModel })
-  @Get(':offset/:limit/:from/:to')
+  @Get(':offset/:limit')
   getPosts(
     @Param('offset', ParseIntPipe) offset: number,
     @Param('limit', ParseIntPipe) limit: number
