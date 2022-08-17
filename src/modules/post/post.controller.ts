@@ -56,11 +56,9 @@ export class PostController {
   @Get(':offset/:limit/:from/:to')
   getPosts(
     @Param('offset', ParseIntPipe) offset: number,
-    @Param('limit', ParseIntPipe) limit: number,
-    @Param('from') from: string,
-    @Param('to') to: string
+    @Param('limit', ParseIntPipe) limit: number
   ): Promise<{ rows: PostModel[]; count: number }> {
-    return this.postService.getPosts({ offset, limit, from, to });
+    return this.postService.getPosts({ offset, limit });
   }
 
   @ApiOperation({ summary: 'Resource for commenting post' })

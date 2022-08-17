@@ -45,17 +45,12 @@ export class PostService {
 
   async getPosts({
     offset,
-    limit,
-    from,
-    to
+    limit
   }: {
     offset: number;
     limit: number;
-    from: string;
-    to: string;
   }): Promise<{ rows: Post[]; count: number }> {
     return await this.postRepository.findAndCountAll({
-      where: { createdAt: { [Op.between]: [from, to] } },
       order: [['createdAt', 'DESC']],
       attributes: ['title', 'slug', 'description'],
       limit,
