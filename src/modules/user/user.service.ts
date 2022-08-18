@@ -115,6 +115,12 @@ export class UserService {
           [Op.iLike]: `%${username}%`
         }
       },
+      include: [
+        {
+          model: Ban,
+          attributes: ['reason']
+        }
+      ],
       raw: true
     });
   }
