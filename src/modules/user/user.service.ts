@@ -105,8 +105,11 @@ export class UserService {
     });
   }
 
-  async getUserByNickname(username: string): Promise<User> {
-    return await this.userRepository.findOne({
+  async getUserByNickname(
+    username: string
+  ): Promise<{ rows: User[]; count: number }> {
+    return await this.userRepository.findAndCountAll({
+      attributes: ['id', 'email', 'username', 'firstName', 'lastName'],
       where: {
         username: {
           [Op.iLike]: `%${username}%`

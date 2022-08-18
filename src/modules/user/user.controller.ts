@@ -77,7 +77,9 @@ export class UserController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Get('/one')
-  getUser(@Query('username') username: string): Promise<User> {
+  getUser(
+    @Query('username') username: string
+  ): Promise<{ rows: User[]; count: number }> {
     return this.userService.getUserByNickname(username);
   }
 
