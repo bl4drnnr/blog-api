@@ -38,7 +38,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Delete(':id')
-  deletePost(@Param(':id') id: string): Promise<number> {
+  deletePost(@Param('id') id: string): Promise<number> {
     return this.postService.deletePost(id);
   }
 

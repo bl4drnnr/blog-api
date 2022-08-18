@@ -51,7 +51,7 @@ export class PostService {
   }): Promise<{ rows: Post[]; count: number }> {
     return await this.postRepository.findAndCountAll({
       order: [['createdAt', 'DESC']],
-      attributes: ['title', 'slug', 'description'],
+      attributes: ['id', 'title', 'slug', 'description'],
       limit,
       offset,
       raw: true
