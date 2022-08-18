@@ -13,6 +13,8 @@ import { ApiProperty } from '@nestjs/swagger';
 interface IPostCreatingAttributes {
   title: string;
   content: string;
+  slug: string;
+  description: string;
 }
 
 @Table

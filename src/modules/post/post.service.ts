@@ -14,7 +14,13 @@ export class PostService {
   ) {}
 
   async createPost(createPostDto: PostDto): Promise<Post> {
-    return await this.postRepository.create(createPostDto);
+    const slug = createPostDto.title
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return await this.postRepository.create({ ...createPostDto, slug });
   }
 
   async getPostBySlug(
