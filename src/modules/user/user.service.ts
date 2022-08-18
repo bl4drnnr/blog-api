@@ -105,6 +105,17 @@ export class UserService {
     });
   }
 
+  async getUserByNickname(username: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: {
+        username: {
+          [Op.iLike]: `%${username}%`
+        }
+      },
+      raw: true
+    });
+  }
+
   async logout(userId: string): Promise<number> {
     return await this.authService.deleteRefreshToken(userId);
   }
@@ -117,6 +128,7 @@ export class UserService {
     limit: number;
   }): Promise<{ rows: User[]; count: number }> {
     return await this.userRepository.findAndCountAll({
+      attributes: ['id', 'email', 'username', 'firstName', 'lastName'],
       order: [['createdAt', 'DESC']],
       offset,
       limit,

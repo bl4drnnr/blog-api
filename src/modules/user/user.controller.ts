@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
   Res,
   UseGuards
 } from '@nestjs/common';
@@ -69,6 +70,15 @@ export class UserController {
     @Param('limit', ParseIntPipe) limit: number
   ): Promise<{ rows: User[]; count: number }> {
     return this.userService.getUsers({ offset, limit });
+  }
+
+  @ApiOperation({ summary: 'Resource for getting one user (ADMIN only)' })
+  @ApiResponse({ status: 200, type: User })
+  @UseGuards(RoleGuard, AuthGuard)
+  @Roles('ADMIN')
+  @Get('/one')
+  getUser(@Query('username') username: string): Promise<User> {
+    return this.userService.getUserByNickname(username);
   }
 
   @ApiOperation({ summary: 'Resource for ban users (ADMIN only)' })
