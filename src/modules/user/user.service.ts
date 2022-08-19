@@ -138,6 +138,12 @@ export class UserService {
   }): Promise<{ rows: User[]; count: number }> {
     return await this.userRepository.findAndCountAll({
       attributes: ['id', 'email', 'username', 'firstName', 'lastName'],
+      include: [
+        {
+          model: Ban,
+          attributes: ['reason']
+        }
+      ],
       order: [['createdAt', 'DESC']],
       offset,
       limit,
