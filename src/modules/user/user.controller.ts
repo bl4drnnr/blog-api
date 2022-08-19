@@ -91,4 +91,13 @@ export class UserController {
   banUser(@Body() banUserDto: BanUserDto): Promise<Ban> {
     return this.userService.banUser(banUserDto);
   }
+
+  @ApiOperation({ summary: 'Resource for unban users (ADMIN only)' })
+  @ApiResponse({ status: 201, type: Ban })
+  @UseGuards(RoleGuard, AuthGuard)
+  @Roles('ADMIN')
+  @Post('/unban')
+  unbanUser(@Body('email') email: string): Promise<number> {
+    return this.userService.unbanUser(email);
+  }
 }

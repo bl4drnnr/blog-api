@@ -22,7 +22,7 @@ import { ConfigService } from '../../shared/config.service';
 export class UserService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
-    @InjectModel(Ban) private BanRepository: typeof Ban,
+    @InjectModel(Ban) private banRepository: typeof Ban,
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
     @Inject(forwardRef(() => RoleService))
@@ -155,9 +155,20 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: { email: banUserDto.email }
     });
-    return await this.BanRepository.create({
+    return await this.banRepository.create({
       userId: user.id,
       reason: banUserDto.reason
+    });
+  }
+
+  async unbanUser(email: string): Promise<number> {
+    const user = await this.userRepository.findOne({
+      where: { email }
+    });
+    return await this.banRepository.destroy({
+      where: {
+        userId: user.id
+      }
     });
   }
 }
