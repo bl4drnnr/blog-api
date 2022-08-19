@@ -5,6 +5,7 @@ import { PostDto } from '../../dto/post/post.dto';
 import { CommentPostDto } from '../../dto/post/comment-post.dto';
 import { PostComment } from '../../models/comment.model';
 import { User } from '../../models/user.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class PostService {
@@ -42,6 +43,19 @@ export class PostService {
       raw: true
     });
     return { post, postComments };
+  }
+
+  async getPostByQuery(post: string): Promise<{ rows: Post[]; count: number }> {
+    return await this.postRepository.findAndCountAll({
+      where: {
+        title: {
+          [Op.iLike]: `%${post}%`
+        }
+      },
+      order: [['createdAt', 'DESC']],
+      attributes: ['id', 'title', 'slug', 'description'],
+      raw: true
+    });
   }
 
   async deletePost(id: string): Promise<number> {

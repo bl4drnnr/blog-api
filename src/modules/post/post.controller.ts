@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
   UseGuards
 } from '@nestjs/common';
 import { PostService } from './post.service';
@@ -49,6 +50,15 @@ export class PostController {
     @Param('slug') slug: string
   ): Promise<{ post: PostModel; postComments: PostComment[] }> {
     return this.postService.getPostBySlug(slug);
+  }
+
+  @ApiOperation({ summary: 'Get posts using query search' })
+  @ApiResponse({ status: 200, type: [PostModel] })
+  @Get('/one')
+  getPostByQuery(
+    @Query('post') post: string
+  ): Promise<{ rows: PostModel[]; count: number }> {
+    return this.postService.getPostByQuery(post);
   }
 
   @ApiOperation({ summary: 'Resource for getting posts' })

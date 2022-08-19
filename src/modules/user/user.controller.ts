@@ -93,7 +93,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Resource for unban users (ADMIN only)' })
-  @ApiResponse({ status: 201, type: Ban })
+  @ApiResponse({ status: 201, type: Number })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/unban')
