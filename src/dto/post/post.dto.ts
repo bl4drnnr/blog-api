@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PostDto {
@@ -6,6 +6,7 @@ export class PostDto {
     example: 'How JS runs the world',
     description: 'Title of post'
   })
+  @IsString()
   @IsNotEmpty()
   readonly title: string;
 
@@ -13,6 +14,7 @@ export class PostDto {
     example: 'Today we well talk more about JS',
     description: 'Short description of the post'
   })
+  @IsString()
   @IsNotEmpty()
   readonly description: string;
 
@@ -20,6 +22,7 @@ export class PostDto {
     example: 'Blah... Blah... Blah...',
     description: 'Post content'
   })
+  @IsString()
   @IsNotEmpty()
   readonly content: string;
 }

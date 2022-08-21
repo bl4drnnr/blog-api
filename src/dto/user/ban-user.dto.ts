@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class BanUserDto {
@@ -8,6 +8,7 @@ export class BanUserDto {
   readonly email: string;
 
   @ApiProperty({ example: 'Hacker', description: 'Reason for ban' })
+  @IsString()
   @IsNotEmpty()
   readonly reason: string;
 }
