@@ -7,13 +7,11 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from '../../models/user.model';
-import { SignUpUserDto } from '../../dto/user/sign-up-user.dto';
-import { SignInUserDto } from '../../dto/user/sign-in-user.dto';
 import { Op } from 'sequelize';
 import * as bcrypt from 'bcryptjs';
 import { AuthService } from '../auth/auth.service';
 import { RoleService } from '../role/role.service';
-import { BanUserDto } from '../../dto/user/ban-user.dto';
+import { BanUserDto, SignUpUserDto, SignInUserDto } from '../../dto/user';
 import { Ban } from '../../models/ban.model';
 import { Role } from '../../models/role.model';
 import { ConfigService } from '../../shared/config.service';

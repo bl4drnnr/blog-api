@@ -10,13 +10,11 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { SignUpUserDto } from '../../dto/user/sign-up-user.dto';
-import { SignInUserDto } from '../../dto/user/sign-in-user.dto';
 import { Roles } from '../../decorator/role.decorator';
 import { RoleGuard } from '../../guard/role.guard';
 import { AuthGuard } from '../../guard/auth.guard';
 import { User } from '../../models/user.model';
-import { BanUserDto } from '../../dto/user/ban-user.dto';
+import { BanUserDto, SignUpUserDto, SignInUserDto } from '../../dto/user';
 import { Ban } from '../../models/ban.model';
 import { User as UserDecorator } from '../../decorator/user.decorator';
 import { FastifyReply } from 'fastify';

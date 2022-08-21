@@ -1,8 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { RoleService } from './role.service';
-import { RoleDto } from '../../dto/role/role.dto';
 import { Role } from '../../models/role.model';
-import { DistributeRoleDto } from '../../dto/role/distribute-role.dto';
+import { DistributeRoleDto, RoleDto } from '../../dto/role';
 import { RoleGuard } from '../../guard/role.guard';
 import { AuthGuard } from '../../guard/auth.guard';
 import { Roles } from '../../decorator/role.decorator';

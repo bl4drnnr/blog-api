@@ -5,10 +5,9 @@ import {
   Inject,
   Injectable
 } from '@nestjs/common';
-import { RoleDto } from '../../dto/role/role.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Role } from '../../models/role.model';
-import { DistributeRoleDto } from '../../dto/role/distribute-role.dto';
+import { DistributeRoleDto, RoleDto } from '../../dto/role';
 import { UserService } from '../user/user.service';
 
 @Injectable()
