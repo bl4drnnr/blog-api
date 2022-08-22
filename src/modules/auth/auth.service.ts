@@ -5,9 +5,9 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Session } from '../../models/session.model';
+import { Session } from "@models/session.model";
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '../../shared/config.service';
+import { ConfigService } from "@shared/config.service";
 import { RefreshTokenDto, AccessTokenDto } from '../../dto/token';
 import { UserService } from '../user/user.service';
 import * as uuid from 'uuid';

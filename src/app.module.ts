@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserModule } from './modules/user/user.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { PostModule } from './modules/post/post.module';
-import { Post } from './models/post.model';
-import { User } from './models/user.model';
-import { Session } from './models/session.model';
-import { SharedModule } from './shared/shared.module';
-import { RoleModule } from './modules/role/role.module';
-import { Role } from './models/role.model';
-import { UserRole } from './models/user-role.model';
-import { Ban } from './models/ban.model';
-import { PostComment } from './models/comment.model';
+import { UserModule } from "@modules/user/user.module";
+import { AuthModule } from '@modules/auth/auth.module';
+import { PostModule } from '@modules/post/post.module';
+import { Post } from "@models/post.model";
+import { User } from "@models/user.model";
+import { Session } from "@models/session.model";
+import { SharedModule } from "@shared/shared.module";
+import { RoleModule } from "@modules/role/role.module";
+import { Role } from "@models/role.model";
+import { UserRole } from "@models/user-role.model";
+import { Ban } from "@models/ban.model";
+import { PostComment } from "@models/comment.model";
 
 @Module({
   imports: [

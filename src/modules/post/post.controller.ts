@@ -10,11 +10,11 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { PostService } from './post.service';
-import { Roles } from '../../decorator/role.decorator';
-import { RoleGuard } from '../../guard/role.guard';
-import { AuthGuard } from '../../guard/auth.guard';
+import { Roles } from "@decorators/role.decorator";
+import { RoleGuard } from "@guards/role.guard";
+import { AuthGuard } from "@guards/auth.guard";
 import { CommentPostDto, PostDto } from '../../dto/post';
-import { User } from '../../decorator/user.decorator';
+import { User } from "@decorators/user.decorator";
 import { Post as PostModel } from '../../models/post.model';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
