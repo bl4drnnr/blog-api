@@ -22,6 +22,7 @@ import {
 import { User } from '@decorators/user.decorator';
 import { Post as PostModel } from '../../models/post.model';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { DeletePostResponse } from '@modules/post/dto/delete-post/response.dto';
 
 @ApiTags('Post')
 @Controller('post')
@@ -44,8 +45,10 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Delete(':id')
-  deletePost(@Param('id') id: string) {
-    return this.postService.deletePost(id);
+  async deletePost(@Param('id') id: string) {
+    await this.postService.deletePost(id);
+
+    return new DeletePostResponse();
   }
 
   @ApiOperation({ summary: 'Resource for getting post by slug' })
