@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Post } from '@models/post.model';
-import { CommentPostDto, PostDto } from '../../dto/post';
+import { CommentPostDto, PostDto } from './dto';
 import { PostComment } from '@models/comment.model';
 import { User } from '@models/user.model';
 import { Op } from 'sequelize';

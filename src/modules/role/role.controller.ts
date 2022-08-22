@@ -31,10 +31,8 @@ export class RoleController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/distribute')
-  async distributeRole(@Body() distributeRoleDto: DistributeRoleDto) {
-    const distributedRole = await this.roleService.distributeRole(
-      distributeRoleDto
-    );
+  async distributeRole(@Body() payload: DistributeRoleDto) {
+    const distributedRole = await this.roleService.distributeRole(payload);
 
     return new DistributeRoleResponse(distributedRole.username);
   }

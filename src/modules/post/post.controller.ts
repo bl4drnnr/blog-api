@@ -13,7 +13,12 @@ import { PostService } from './post.service';
 import { Roles } from '@decorators/role.decorator';
 import { RoleGuard } from '@guards/role.guard';
 import { AuthGuard } from '@guards/auth.guard';
-import { CommentPostDto, PostDto } from '../../dto/post';
+import {
+  CommentPostDto,
+  CreatePostResponse,
+  PostDto,
+  CommentedPostResponse
+} from './dto';
 import { User } from '@decorators/user.decorator';
 import { Post as PostModel } from '../../models/post.model';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -28,8 +33,10 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
-  createPost(@Body() createPostDto: PostDto) {
-    return this.postService.createPost(createPostDto);
+  async createPost(@Body() payload: PostDto) {
+    const createdPost = await this.postService.createPost(payload);
+
+    return new CreatePostResponse(createdPost.id);
   }
 
   @ApiOperation({ summary: 'Resource for creating deleting post (ADMIN only)' })
@@ -69,7 +76,9 @@ export class PostController {
   @ApiResponse({ status: 201, type: CommentPostDto })
   @UseGuards(AuthGuard)
   @Post('/comment')
-  commentPost(@Body() commentPostDto: CommentPostDto, @User() userId: string) {
-    return this.postService.commentPost(commentPostDto, userId);
+  async commentPost(@Body() payload: CommentPostDto, @User() userId: string) {
+    const commentedPost = await this.postService.commentPost(payload, userId);
+
+    return new CommentedPostResponse(commentedPost.postId);
   }
 }
