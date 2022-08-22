@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Role } from '@models/role.model';
-import { DistributeRoleDto, RoleDto } from '../../dto/role';
+import { DistributeRoleDto, CreateRoleDto } from './dto';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class RoleService {
     private userService: UserService
   ) {}
 
-  async createRole(roleDto: RoleDto) {
+  async createRole(roleDto: CreateRoleDto) {
     return await this.roleRepository.create(roleDto);
   }
 
@@ -26,10 +26,6 @@ export class RoleService {
     return await this.roleRepository.findOne({
       where: { ...conditionals }
     });
-  }
-
-  async listRoles() {
-    return await this.roleRepository.findAll();
   }
 
   async distributeRole(distributeRoleDto: DistributeRoleDto) {

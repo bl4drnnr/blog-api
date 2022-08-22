@@ -1,7 +1,12 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Role } from '@models/role.model';
-import { DistributeRoleDto, RoleDto } from '../../dto/role';
+import {
+  DistributeRoleDto,
+  CreateRoleDto,
+  CreateRoleResponse,
+  DistributeRoleResponse
+} from './dto';
 import { RoleGuard } from '@guards/role.guard';
 import { AuthGuard } from '@guards/auth.guard';
 import { Roles } from '@decorators/role.decorator';
@@ -15,8 +20,10 @@ export class RoleController {
   @ApiOperation({ summary: 'Resource for creating role' })
   @ApiResponse({ status: 201, type: Role })
   @Post()
-  createRole(@Body() roleDto: RoleDto) {
-    return this.roleService.createRole(roleDto);
+  async createRole(@Body() payload: CreateRoleDto) {
+    const role = await this.roleService.createRole(payload);
+
+    return new CreateRoleResponse(role.id);
   }
 
   @ApiOperation({ summary: 'Resource for distributing role' })
@@ -24,7 +31,11 @@ export class RoleController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/distribute')
-  distributeRole(@Body() distributeRoleDto: DistributeRoleDto) {
-    return this.roleService.distributeRole(distributeRoleDto);
+  async distributeRole(@Body() distributeRoleDto: DistributeRoleDto) {
+    const distributedRole = await this.roleService.distributeRole(
+      distributeRoleDto
+    );
+
+    return new DistributeRoleResponse(distributedRole.username);
   }
 }
