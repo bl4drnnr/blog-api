@@ -6,15 +6,15 @@ import {
   Injectable
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { User } from "@models/user.model";
+import { User } from '@models/user.model';
 import { Op } from 'sequelize';
 import * as bcrypt from 'bcryptjs';
 import { AuthService } from '../auth/auth.service';
 import { RoleService } from '../role/role.service';
 import { BanUserDto, SignUpUserDto, SignInUserDto } from './dto/user';
-import { Ban } from "@models/ban.model";
-import { Role } from "@models/role.model";
-import { ConfigService } from "@shared/config.service";
+import { Ban } from '@models/ban.model';
+import { Role } from '@models/role.model';
+import { ConfigService } from '@shared/config.service';
 
 @Injectable()
 export class UserService {

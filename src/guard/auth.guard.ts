@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException
 } from '@nestjs/common';
-import { AuthService } from "@modules/auth/auth.service";
+import { AuthService } from '@modules/auth/auth.service';
 import { Observable } from 'rxjs';
 
 interface ITokenPayload {

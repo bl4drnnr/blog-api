@@ -1,6 +1,6 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Cookie } from "@decorators/cookie.decorator";
+import { Cookie } from '@decorators/cookie.decorator';
 import { FastifyReply } from 'fastify';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
