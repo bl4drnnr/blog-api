@@ -11,7 +11,7 @@ import { Op } from 'sequelize';
 import * as bcrypt from 'bcryptjs';
 import { AuthService } from '../auth/auth.service';
 import { RoleService } from '../role/role.service';
-import { BanUserDto, SignUpUserDto, SignInUserDto } from './dto/user';
+import { BanUserDto, SignUpUserDto, SignInUserDto } from './dto';
 import { Ban } from '@models/ban.model';
 import { Role } from '@models/role.model';
 import { ConfigService } from '@shared/config.service';
@@ -139,7 +139,7 @@ export class UserService {
     });
   }
 
-  async banUser(banUserDto: BanUserDto): Promise<Ban> {
+  async banUser(banUserDto: BanUserDto) {
     const user = await this.userRepository.findOne({
       where: { email: banUserDto.email }
     });
@@ -149,7 +149,7 @@ export class UserService {
     });
   }
 
-  async unbanUser(email: string): Promise<number> {
+  async unbanUser(email: string) {
     const user = await this.userRepository.findOne({
       where: { email }
     });

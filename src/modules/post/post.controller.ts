@@ -28,7 +28,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post()
-  createPost(@Body() createPostDto: PostDto): Promise<PostModel> {
+  createPost(@Body() createPostDto: PostDto) {
     return this.postService.createPost(createPostDto);
   }
 
@@ -37,7 +37,7 @@ export class PostController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Delete(':id')
-  deletePost(@Param('id') id: string): Promise<number> {
+  deletePost(@Param('id') id: string) {
     return this.postService.deletePost(id);
   }
 
