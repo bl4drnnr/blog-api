@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Cookie } from '@decorators/cookie.decorator';
 import { FastifyReply } from 'fastify';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { RefreshTokenResponse } from '@modules/auth/dto/refresh-token/response.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -15,11 +16,11 @@ export class AuthController {
   async refreshToken(
     @Res({ passthrough: true }) res: FastifyReply,
     @Cookie('_rt') refreshToken: string
-  ): Promise<string> {
+  ) {
     const { _at, _rt } = await this.authService.refreshToken(refreshToken);
 
     res.cookie('_rt', _rt);
 
-    return res.send(_at);
+    return new RefreshTokenResponse(_at);
   }
 }

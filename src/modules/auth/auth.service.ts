@@ -8,10 +8,11 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Session } from '@models/session.model';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@shared/config.service';
-import { RefreshTokenDto, AccessTokenDto } from '../../dto/token';
 import { UserService } from '../user/user.service';
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
+import { IRefreshToken } from '@interface/refresh-token.interface';
+import { IAccessToken } from '@interface/access-token.interface';
 
 interface ITokenPayload {
   id: string;
@@ -37,7 +38,7 @@ export class AuthService {
     return await this.sessionRepository.findOne({ where: { tokenId } });
   }
 
-  async updateTokens(accessTokenDto: AccessTokenDto) {
+  async updateTokens(accessTokenDto: IAccessToken) {
     const accessToken = this.generateAccessToken(accessTokenDto);
     const refreshToken = this.generateRefreshToken();
 
@@ -90,7 +91,7 @@ export class AuthService {
     }
   }
 
-  private generateAccessToken(accessTokenDto: AccessTokenDto) {
+  private generateAccessToken(accessTokenDto: IAccessToken) {
     const payload = {
       userId: accessTokenDto.userId,
       username: accessTokenDto.username,
@@ -116,7 +117,7 @@ export class AuthService {
     return { id, token: this.jwtService.sign(payload, options) };
   }
 
-  private async updateRefreshToken(refreshTokenDto: RefreshTokenDto) {
+  private async updateRefreshToken(refreshTokenDto: IRefreshToken) {
     await this.sessionRepository.destroy({
       where: { userId: refreshTokenDto.userId }
     });

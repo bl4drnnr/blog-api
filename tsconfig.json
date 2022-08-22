@@ -24,7 +24,8 @@
       "@decorators/*": ["decorator/*"],
       "@exception/*": ["exception/*"],
       "@models/*": ["models/*"],
-      "@pipe/*": ["pipe/*"]
+      "@pipe/*": ["pipe/*"],
+      "@interface/*": ["interface/*"]
     }
   }
 }
