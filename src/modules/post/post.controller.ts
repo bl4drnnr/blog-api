@@ -15,7 +15,6 @@ import { RoleGuard } from '../../guard/role.guard';
 import { AuthGuard } from '../../guard/auth.guard';
 import { CommentPostDto, PostDto } from '../../dto/post';
 import { User } from '../../decorator/user.decorator';
-import { PostComment } from '../../models/comment.model';
 import { Post as PostModel } from '../../models/post.model';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -45,28 +44,24 @@ export class PostController {
   @ApiOperation({ summary: 'Resource for getting post by slug' })
   @ApiResponse({ status: 200, type: PostModel })
   @Get(':slug')
-  getPostBySlug(
-    @Param('slug') slug: string
-  ): Promise<{ post: PostModel; postComments: PostComment[] }> {
+  getPostBySlug(@Param('slug') slug: string) {
     return this.postService.getPostBySlug(slug);
   }
 
   @ApiOperation({ summary: 'Get posts using query search' })
   @ApiResponse({ status: 200, type: [PostModel] })
   @Get('/one')
-  getPostByQuery(
-    @Query('post') post: string
-  ): Promise<{ rows: PostModel[]; count: number }> {
+  getPostByQuery(@Query('post') post: string) {
     return this.postService.getPostByQuery(post);
   }
 
   @ApiOperation({ summary: 'Resource for getting posts' })
-  @ApiResponse({ status: 200, type: PostModel })
+  @ApiResponse({ status: 200, type: [PostModel] })
   @Get(':offset/:limit')
   getPosts(
     @Param('offset', ParseIntPipe) offset: number,
     @Param('limit', ParseIntPipe) limit: number
-  ): Promise<{ rows: PostModel[]; count: number }> {
+  ) {
     return this.postService.getPosts({ offset, limit });
   }
 
@@ -74,10 +69,7 @@ export class PostController {
   @ApiResponse({ status: 201, type: CommentPostDto })
   @UseGuards(AuthGuard)
   @Post('/comment')
-  commentPost(
-    @Body() commentPostDto: CommentPostDto,
-    @User() userId: string
-  ): Promise<CommentPostDto> {
+  commentPost(@Body() commentPostDto: CommentPostDto, @User() userId: string) {
     return this.postService.commentPost(commentPostDto, userId);
   }
 }

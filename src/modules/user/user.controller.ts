@@ -31,7 +31,7 @@ export class UserController {
   async signIn(
     @Body() signInUserDto: SignInUserDto,
     @Res({ passthrough: true }) res: FastifyReply
-  ): Promise<string> {
+  ) {
     const { _at, _rt } = await this.userService.signIn(signInUserDto);
 
     res.cookie('_rt', _rt);
@@ -42,7 +42,7 @@ export class UserController {
   @ApiOperation({ summary: 'Resource for signing user up system' })
   @ApiResponse({ status: 201, type: User })
   @Post('/sign-up')
-  signUp(@Body() signUpUserDto: SignUpUserDto): Promise<User> {
+  signUp(@Body() signUpUserDto: SignUpUserDto) {
     return this.userService.signUp(signUpUserDto);
   }
 
@@ -53,7 +53,7 @@ export class UserController {
   logout(
     @UserDecorator() userId: string,
     @Res({ passthrough: true }) res: FastifyReply
-  ): Promise<number> {
+  ) {
     res.clearCookie('_rt');
     return this.userService.logout(userId);
   }
@@ -66,18 +66,16 @@ export class UserController {
   getAllUsers(
     @Param('offset', ParseIntPipe) offset: number,
     @Param('limit', ParseIntPipe) limit: number
-  ): Promise<{ rows: User[]; count: number }> {
+  ) {
     return this.userService.getUsers({ offset, limit });
   }
 
   @ApiOperation({ summary: 'Resource for getting one user (ADMIN only)' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 200, type: [User] })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Get('/one')
-  getUser(
-    @Query('username') username: string
-  ): Promise<{ rows: User[]; count: number }> {
+  getUser(@Query('username') username: string) {
     return this.userService.getUserByNickname(username);
   }
 
@@ -86,7 +84,7 @@ export class UserController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/ban')
-  banUser(@Body() banUserDto: BanUserDto): Promise<Ban> {
+  banUser(@Body() banUserDto: BanUserDto) {
     return this.userService.banUser(banUserDto);
   }
 
@@ -95,7 +93,7 @@ export class UserController {
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/unban')
-  unbanUser(@Body('email') email: string): Promise<number> {
+  unbanUser(@Body('email') email: string) {
     return this.userService.unbanUser(email);
   }
 }

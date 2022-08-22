@@ -33,13 +33,11 @@ export class AuthService {
     private configService: ConfigService
   ) {}
 
-  async getTokenById(tokenId: string): Promise<Session> {
+  async getTokenById(tokenId: string) {
     return await this.sessionRepository.findOne({ where: { tokenId } });
   }
 
-  async updateTokens(
-    accessTokenDto: AccessTokenDto
-  ): Promise<{ _at: string; _rt: string }> {
+  async updateTokens(accessTokenDto: AccessTokenDto) {
     const accessToken = this.generateAccessToken(accessTokenDto);
     const refreshToken = this.generateRefreshToken();
 
@@ -51,9 +49,7 @@ export class AuthService {
     return { _at: accessToken, _rt: refreshToken.token };
   }
 
-  async refreshToken(
-    tokenRefresh: string
-  ): Promise<{ _at: string; _rt: string }> {
+  async refreshToken(tokenRefresh: string) {
     if (!tokenRefresh)
       throw new UnauthorizedException({ message: 'unauthorized' });
 
@@ -75,7 +71,7 @@ export class AuthService {
     });
   }
 
-  async deleteRefreshToken(userId: string): Promise<number> {
+  async deleteRefreshToken(userId: string) {
     return await this.sessionRepository.destroy({ where: { userId } });
   }
 
@@ -94,7 +90,7 @@ export class AuthService {
     }
   }
 
-  private generateAccessToken(accessTokenDto: AccessTokenDto): string {
+  private generateAccessToken(accessTokenDto: AccessTokenDto) {
     const payload = {
       userId: accessTokenDto.userId,
       username: accessTokenDto.username,
@@ -109,7 +105,7 @@ export class AuthService {
     return this.jwtService.sign(payload, options);
   }
 
-  private generateRefreshToken(): { id: string; token: string } {
+  private generateRefreshToken() {
     const id = uuid.v4();
     const payload = { id, type: 'refresh' };
     const options = {
@@ -120,9 +116,7 @@ export class AuthService {
     return { id, token: this.jwtService.sign(payload, options) };
   }
 
-  private async updateRefreshToken(
-    refreshTokenDto: RefreshTokenDto
-  ): Promise<Session> {
+  private async updateRefreshToken(refreshTokenDto: RefreshTokenDto) {
     await this.sessionRepository.destroy({
       where: { userId: refreshTokenDto.userId }
     });

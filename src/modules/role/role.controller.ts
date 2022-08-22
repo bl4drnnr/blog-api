@@ -13,20 +13,18 @@ export class RoleController {
   constructor(private roleService: RoleService) {}
 
   @ApiOperation({ summary: 'Resource for creating role' })
-  @ApiResponse({ status: 201, type: [Role] })
+  @ApiResponse({ status: 201, type: Role })
   @Post()
-  createRole(@Body() roleDto: RoleDto): Promise<Role> {
+  createRole(@Body() roleDto: RoleDto) {
     return this.roleService.createRole(roleDto);
   }
 
   @ApiOperation({ summary: 'Resource for distributing role' })
-  @ApiResponse({ status: 201, type: [DistributeRoleDto] })
+  @ApiResponse({ status: 201, type: DistributeRoleDto })
   @UseGuards(RoleGuard, AuthGuard)
   @Roles('ADMIN')
   @Post('/distribute')
-  distributeRole(
-    @Body() distributeRoleDto: DistributeRoleDto
-  ): Promise<DistributeRoleDto> {
+  distributeRole(@Body() distributeRoleDto: DistributeRoleDto) {
     return this.roleService.distributeRole(distributeRoleDto);
   }
 }

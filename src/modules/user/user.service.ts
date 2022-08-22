@@ -28,9 +28,7 @@ export class UserService {
     private configService: ConfigService
   ) {}
 
-  async signIn(
-    signInUserDto: SignInUserDto
-  ): Promise<{ _at: string; _rt: string }> {
+  async signIn(signInUserDto: SignInUserDto) {
     const user = await this.userRepository.findOne({
       where: { email: signInUserDto.email },
       include: [
@@ -59,7 +57,7 @@ export class UserService {
     });
   }
 
-  async signUp(signUpUserDto: SignUpUserDto): Promise<User> {
+  async signUp(signUpUserDto: SignUpUserDto) {
     const sameEmailUsernameUser = await this.userRepository.findOne({
       where: {
         [Op.or]: [
@@ -90,7 +88,7 @@ export class UserService {
     return user;
   }
 
-  async getUser(conditionals: object): Promise<User> {
+  async getUser(conditionals: object) {
     return await this.userRepository.findOne({
       where: { ...conditionals },
       include: [
@@ -103,9 +101,7 @@ export class UserService {
     });
   }
 
-  async getUserByNickname(
-    username: string
-  ): Promise<{ rows: User[]; count: number }> {
+  async getUserByNickname(username: string) {
     return await this.userRepository.findAndCountAll({
       attributes: ['id', 'email', 'username', 'firstName', 'lastName'],
       where: {
@@ -123,17 +119,11 @@ export class UserService {
     });
   }
 
-  async logout(userId: string): Promise<number> {
+  async logout(userId: string) {
     return await this.authService.deleteRefreshToken(userId);
   }
 
-  async getUsers({
-    offset,
-    limit
-  }: {
-    offset: number;
-    limit: number;
-  }): Promise<{ rows: User[]; count: number }> {
+  async getUsers({ offset, limit }: { offset: number; limit: number }) {
     return await this.userRepository.findAndCountAll({
       attributes: ['id', 'email', 'username', 'firstName', 'lastName'],
       include: [

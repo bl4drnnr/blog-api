@@ -13,7 +13,7 @@ export class PostService {
     @InjectModel(PostComment) private commentRepository: typeof PostComment
   ) {}
 
-  async createPost(createPostDto: PostDto): Promise<Post> {
+  async createPost(createPostDto: PostDto) {
     const slug = createPostDto.title
       .toLowerCase()
       .trim()
@@ -23,9 +23,7 @@ export class PostService {
     return await this.postRepository.create({ ...createPostDto, slug });
   }
 
-  async getPostBySlug(
-    slug: string
-  ): Promise<{ post: Post; postComments: PostComment[] }> {
+  async getPostBySlug(slug: string) {
     const post = await this.postRepository.findOne({
       where: { slug },
       raw: true
@@ -44,7 +42,7 @@ export class PostService {
     return { post, postComments };
   }
 
-  async getPostByQuery(post: string): Promise<{ rows: Post[]; count: number }> {
+  async getPostByQuery(post: string) {
     return await this.postRepository.findAndCountAll({
       where: {
         title: {
@@ -57,17 +55,11 @@ export class PostService {
     });
   }
 
-  async deletePost(id: string): Promise<number> {
+  async deletePost(id: string) {
     return await this.postRepository.destroy({ where: { id } });
   }
 
-  async getPosts({
-    offset,
-    limit
-  }: {
-    offset: number;
-    limit: number;
-  }): Promise<{ rows: Post[]; count: number }> {
+  async getPosts({ offset, limit }: { offset: number; limit: number }) {
     return await this.postRepository.findAndCountAll({
       order: [['createdAt', 'DESC']],
       attributes: ['id', 'title', 'slug', 'description'],
@@ -77,10 +69,7 @@ export class PostService {
     });
   }
 
-  async commentPost(
-    commentPostDto: CommentPostDto,
-    userId: string
-  ): Promise<PostComment> {
+  async commentPost(commentPostDto: CommentPostDto, userId: string) {
     return await this.commentRepository.create({
       userId,
       ...commentPostDto
