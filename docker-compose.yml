@@ -1,11 +1,39 @@
 version: '3.8'
+
 services:
+  api:
+    container_name: blog-api
+    restart: always
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env.development
+    command: npm run start:dev
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - blog-network
   db:
     image: postgres
-    container_name: blog-api
+    container_name: blog-db
     restart: always
     ports:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: blog
+    volumes:
+      - /:/data/postgres
+    networks:
+      - blog-network
+
+networks:
+  blog-network:
+    driver: bridge
